@@ -11,3 +11,4 @@ pip3 install flask-wtf
 pip3 install pytz
 pip3 install flask-babel
 pip3 install flup
+pip3 install Flask-Migrate
