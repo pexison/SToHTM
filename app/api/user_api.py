@@ -25,7 +25,14 @@ def get_user(id):
 
 @user.route('/user/<id>/update', methods=['PUT'])
 def update_user(id):
-    return json.dumps({})
+    params = request.args
+    email = params.get('email', None)
+    fullname = params.get('fullname', None)
+    password = params.get('password', None)
+    UserInstance = User()
+    result = UserInstance.updateUser(email=email, password=password,
+                                     fullname=fullname)[0]
+    return json.dumps({"updated_user": result})
 
 
 @user.route('/user/<id>/delete', methods=['POST'])

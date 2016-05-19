@@ -83,7 +83,7 @@ class User (db.Model):
                     return True
         return False
 
-    def updateUser(self, email, new_fullname, new_password):
+    def updateUser(self, email=None, new_fullname=None, new_password=None):
         '''Permite actualizar los datos de un usuario'''
 
         checkEmail = type(email) == str
