@@ -19,7 +19,7 @@ class User (db.Model):
     fullname = db.Column(db.String(50))
     password = db.Column(db.String(200))
 
-    def __init__(self, email, fullname, password):
+    def __init__(self, email=None, fullname=None, password=None):
         '''Constructor del modelo usuario'''
         self.email = email
         self.fullname = fullname
@@ -31,13 +31,13 @@ class User (db.Model):
             '<fullname %r, email %r, username %r >' % (self.userId, self.email,
                                                        self.fullname)
 
-    def getAllUsers(self):
+    def getUsers(self):
         '''Permite obtener todos los usuarios con sus atributos'''
 
         result = self.query.all()
         return result
 
-    def searchUser(self, email):
+    def getUserByEmail(self, email):
         '''Permite buscar un usuario por su correo'''
 
         if (type(email) != str):
@@ -50,7 +50,16 @@ class User (db.Model):
                 user = self.query.filter_by(email=email).all()
                 return user
 
-    def insertUser(self, email, fullname, password):
+    def getUserById(self, id):
+        '''Permite buscar un usuario por su id'''
+
+        if (type(id) != int):
+            return []
+        else:
+            user = self.query.filter_by(userId=id).all()
+            return user
+
+    def createUser(self, email, fullname, password):
         '''Permite insertar un usuario'''
 
         checkEmail = type(email) == str
@@ -68,7 +77,7 @@ class User (db.Model):
                 findUser = self.searchUser(email)
 
                 if findUser == []:
-                    newUser = self(email, fullname, password)
+                    newUser = User(email, fullname, password)
                     db.session.add(newUser)
                     db.session.commit()
                     return True
@@ -99,20 +108,16 @@ class User (db.Model):
                     return True
         return False
 
-    def deleteUser(self, email):
+    def deleteUser(self, id):
         '''Permite eliminar un usuario'''
 
-        checkEmail = type(email) == str
+        checkEmail = type(id) == int
 
         if checkEmail:
-            checkLongEmail = CONST_MIN_LONG <= len(email) <= CONST_MAX_EMAIL
-
-            if checkLongEmail:
-                findUser = self.searchUser(email)
-
-                if findUser != []:
-                    for i in findUser:
-                        db.session.delete(i)
-                    db.session.commit()
-                    return True
+            findUser = self.getUserById(id)
+            if findUser != []:
+                for i in findUser:
+                    db.session.delete(i)
+                db.session.commit()
+                return True
         return False
