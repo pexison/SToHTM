@@ -71,3 +71,6 @@ node_modules
 
 # database
 *.sqlite
+
+#venv
+/jipjop
