@@ -1,9 +1,19 @@
-// Declare app level module which depends on filters, and services
-angular.module('SToHTM', ['ngResource', 'ngRoute', 'ui.bootstrap', 'ui.date'])
-  .config(['$routeProvider', function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/home/home.html', 
-        controller: 'HomeController'})
-      .otherwise({redirectTo: '/'});
-  }]);
+// Creación del módulo de la aplicación
+var stohtModule = angular.module('eventos', ['ngRoute', 'ngAnimate', 'flash']);
+stohtModule.config(function ($routeProvider) {
+    $routeProvider.when('/', {
+                controller: 'loginController',
+                templateUrl: 'views/login/login.html'
+            }).when('/admin', {
+                controller: 'adminController',
+                templateUrl: 'views/admin/home.html'
+            }).when('/userList', {
+                controller: 'userListController',
+                templateUrl: 'views/admin/userList.html'
+            })
+});
+
+stohtModule.controller('stohtController_',  ['$scope', '$http', '$location',
+function($scope) {
+    $scope.title = "login";
+}]);

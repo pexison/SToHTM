@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="cuerpo">
+     <center>
+        <table class="table-title">
+            <tr>
+                <td>
+                    <div class="main-title site__title">SToHTM:</div>
+                </td>
+                <td class="sub-title site__title">Services Tool oriented to</br>
+                    Human Talent Management
+                </td>
+            </tr>
+        </table>
+    </center>
+    <center>
+        <div class=" col-md-push-4 ">
+            <div class="pad form-signin">
+                <center>
+                    <h2 class="form-signin-heading">Inicia Sesión</h2>
+                </center>
+                <input  type="email" id="inputEmail" class="form-control" placeholder="Correo" ng-enter="home0()">
+                <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" ng-enter="home0()">
+                <button class="btn btn-lg btn-primary btn-block butt" ng-click="authenticate()" type="button">Ingresar</button>
+                <center>
+                    <div id="error" style="color: red">{{msg}}</div>
+                </center>
+            </div>
+        </div>
+        </center>
+    </div>
+</div>
