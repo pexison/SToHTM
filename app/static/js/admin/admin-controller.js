@@ -143,5 +143,6 @@ stohtModule.controller('userListController',
         $scope.saveButton = "Crear";
 
         $scope.roles=[{name:"Administrador", value:1},{name:"Usuario",value:2}];
+        $scope.chosenRole=$scope.roles[1];
 
     }]);
