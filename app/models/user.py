@@ -9,11 +9,11 @@ CONST_MAX_PASSWORD = 200
 CONST_MAX_EMAIL = 30
 CONST_MIN_LONG = 1
 CONST_MIN_PASSWORD = 1
-CONST_MIN_ROL=1
-CONST_MAX_ROL=2
+CONST_MIN_ROL = 1
+CONST_MAX_ROL = 2
 
 
-class User (db.Model):
+class User(db.Model):
     '''Clase que define el modelo Usuario'''
 
     __tablename__ = 'user'
@@ -47,7 +47,7 @@ class User (db.Model):
         long_email = len(email)
 
         if (long_email > CONST_MAX_EMAIL or long_email < CONST_MIN_LONG):
-            return {'status': 'failed', 'reason': '(String) 1 < email < 30'}
+            return {'status': 'failure', 'reason': '(String) 1 < email < 30'}
         else:
             user = self.query.filter_by(email=email).all()
             return user
@@ -56,7 +56,7 @@ class User (db.Model):
         '''Permite buscar un usuario por su id'''
 
         if (type(id) != int):
-            return {'status': 'failed', 'reason': ' Id not integer'}
+            return {'status': 'failure', 'reason': ' Id not integer'}
         else:
             user = self.query.filter_by(userId=id).all()
             return user
@@ -64,13 +64,19 @@ class User (db.Model):
     def createUser(self, email, fullname, password, rol):
         '''Permite insertar un usuario'''
 
+        # None checks
+        email = email or ""
+        fullname = fullname or ""
+        password = password or ""
+        rol = rol or 0
+
         ''' Chequeos longitud '''
         checkLongEmail = CONST_MIN_LONG <= len(email) <= CONST_MAX_EMAIL
         checkLongFullname = CONST_MIN_LONG <= len(fullname) <= CONST_MAX_FULLNAME
         checkLongPassword = CONST_MIN_PASSWORD <= len(password) <= CONST_MAX_PASSWORD
 
         if checkLongEmail and checkLongFullname and checkLongPassword:
-            findUser = self.getUserByEmail(self, email)
+            findUser = self.getUserByEmail(email)
 
             if findUser == []:
                 newUser = User(email, fullname, password, rol)
@@ -78,15 +84,14 @@ class User (db.Model):
                 db.session.commit()
                 return {'status': 'success', 'reason': 'User Created'}
             else:
-                return {'status': 'failed', 'reason': 'The user is already created'}
+                return {'status': 'failure', 'reason': 'The user is already created'}
 
-        return {'status': 'failed', 'reason': 'Check failed, 1 < Email < 30 - 1 < fullname < 50 - 1 < pass < 200'}
+        return {'status': 'failure', 'reason': 'Check failed, 1 < Email < 30 - 1 < fullname < 50 - 1 < pass < 200'}
 
     def updateUser(self, email=None, new_fullname=None, new_password=None, new_rol=None):
         '''Permite actualizar los datos de un usuario'''
 
         checkLongEmail = CONST_MIN_LONG <= len(email) <= CONST_MAX_EMAIL
-
 
         if (checkLongEmail):
             findUser = self.getUserByEmail(email)
@@ -111,16 +116,16 @@ class User (db.Model):
                     findUser[0].rol = new_rol
 
                 else:
-                    return {'status': 'failed', 'reason': ' Name or password should be != None '}
+                    return {'status': 'failure', 'reason': ' Name or password should be != None '}
 
                 db.session.commit()
 
                 return {'status': 'success', 'reason': 'User updated'}
 
             else:
-                return {'status': 'failed', 'reason': 'Couldnt find user :( '}
+                return {'status': 'failure', 'reason': 'Couldnt find user :( '}
 
-        return {'status': 'failed', 'reason': 'Email too long'}
+        return {'status': 'failure', 'reason': 'Email too long'}
 
     def deleteUser(self, id):
         '''Permite eliminar un usuario'''
@@ -132,4 +137,4 @@ class User (db.Model):
             db.session.commit()
             return {'status': 'success', 'reason': 'User deleted'}
 
-        return {'status': 'failed', 'reason': 'Couldnt find user :('}
+        return {'status': 'failure', 'reason': 'Couldnt find user :('}
