@@ -7,6 +7,14 @@ stohtModule.service('adminService', ['$q', '$http', function($q, $http) {
         });
     };
 
+    this.deleteUser = function(args) {
+        return  $http({
+          url: "user/delete",
+          method: 'POST',
+          params: args
+        });
+    };
+
     this.updateUser = function(args) {
         return  $http({
           url: "user/update",
