@@ -1,0 +1,26 @@
+<div class="col-lg-8">
+        <table class="table">
+            <tr>
+                <td>
+                    <b>Nombre</b>
+                </td>
+                <td>
+                    <b>Correo</b>
+                </td>
+                <td>
+                    <b>Rol</b>
+                </td>
+            </tr>
+            <tr ng-repeat="user in users" class ="clickable-button" ng-click="viewUser(user.id)">
+                <td>
+                    {{user.fullName}}
+                </td>
+                <td>
+                    {{user.email}}
+                </td>
+                <td>
+                    {{user.rol}}
+                </td>
+            </tr>
+        </table>
+</div>
