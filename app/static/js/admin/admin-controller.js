@@ -18,6 +18,8 @@ stohtModule.controller('editUserController',
         $scope.saveButton = "Actualizar";
         var searchObject = $location.search();
         $scope.id=searchObject['user'];
+        alert($scope.id);
+
 
         adminService.getUser({id: $scope.id}).then(function (object) {
             if(object.data['error'] != undefined){
@@ -64,7 +66,7 @@ stohtModule.controller('editUserController',
 stohtModule.controller('userListController',
    ['$scope', '$location', '$route', 'flash', 'adminService',
     function ($scope, $location, $route, flash, adminService) {
-
+        $location.search({});
         $scope.viewUser = function(id) {
             $location.search('user', id);
             $location.path('/editUser');
