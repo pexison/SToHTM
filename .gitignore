@@ -68,6 +68,7 @@ target/
 db_repository
 flask
 node_modules
+.idea
 
 # database
 *.sqlite
