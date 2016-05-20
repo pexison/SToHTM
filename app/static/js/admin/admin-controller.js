@@ -4,16 +4,6 @@ stohtModule.controller('adminController',
         $scope.msg = "";
         $scope.logout = function() {
             $location.path('/');
-          //validate login then call a WS for redirect
-            /*
-            loginService.validar({user: $scope.user, pass: $scope.pass}).then(function (object) {
-            if(object.data['error'] != undefined){
-              $scope.error = object.data['error'];
-            }else{
-              $location.path('/login');
-            }
-          });
-           */
       };
 
     }]);
@@ -26,32 +16,47 @@ stohtModule.controller('editUserController',
         $scope.msg = "";
         $scope.formTitle = "Editar Usuario";
         $scope.saveButton = "Actualizar";
-        $scope.logout = function() {
-            $location.path('/');
-          //validate login then call a WS for redirect
-            /*
-            loginService.validar({user: $scope.user, pass: $scope.pass}).then(function (object) {
+        var searchObject = $location.search();
+        $scope.id=searchObject['user'];
+
+        adminService.getUser({id: $scope.id}).then(function (object) {
             if(object.data['error'] != undefined){
               $scope.error = object.data['error'];
             }else{
-              $location.path('/login');
+                $scope.roles=[{name:"Administrador", value:1},{name:"Usuario",value:2}];
+                $scope.id=object.data['id'];
+                $scope.email=object.data['email'];
+                $scope.password="";
+                $scope.passwordr="";
+                $scope.fullName=object.data['fullName'];
+                $scope.chosenRole=$scope.roles[(object.data['rol'])-1];
             }
           });
-           */
+
+
+        $scope.logout = function() {
+            $location.path('/');
       };
 
         $scope.save = function() {
-            $location.path('/userList');
           //validate login then call a WS for redirect
-            /*
-            loginService.validar({user: $scope.user, pass: $scope.pass}).then(function (object) {
-            if(object.data['error'] != undefined){
-              $scope.error = object.data['error'];
+            if ($scope.password == $scope.passwordr) {
+                adminService.updateUser({
+                    email: $scope.email,
+                    password: $scope.password,
+                    rol: $scope.chosenRole.value,
+                    fullName: $scope.fullName
+                }).then(function (object) {
+                    if (object.data['error'] != undefined) {
+                        $scope.msg = object.data['error'];
+                    } else {
+                        $location.path('/userList');
+                    }
+                });
             }else{
-              $location.path('/login');
+                $scope.msg="Las contraseñas no coinciden";
             }
-          });
-           */
+
       };
 
     }]);
@@ -59,52 +64,82 @@ stohtModule.controller('editUserController',
 stohtModule.controller('userListController',
    ['$scope', '$location', '$route', 'flash', 'adminService',
     function ($scope, $location, $route, flash, adminService) {
-        $scope.msg = "";
-        $scope.formTitle = "Nuevo Usuario";
-        $scope.saveButton = "Crear";
-        $scope.users = [{fullName: "Gabriel Russo", email:"globerusso@gmail.com", rol:"Admin" }]
-        for (i=0;i<30;i++){
-           $scope.users[i]= {id: i, fullName: "Gabriel Russo", email:"globerusso@gmail.com", rol:"Admin" }
-        }
+
         $scope.viewUser = function(id) {
+            $location.search('user', id);
             $location.path('/editUser');
-          //validate login then call a WS for redirect
-            /*
-            loginService.validar({user: $scope.user, pass: $scope.pass}).then(function (object) {
-            if(object.data['error'] != undefined){
-              $scope.error = object.data['error'];
+
+      };
+        adminService.users({}).then(function (object) {
+            if(object.data['result'] != undefined){
+              $scope.users = object.data['result'];
             }else{
-              $location.path('/login');
+                $scope.users = [];
             }
           });
-           */
-      };
+
 
         $scope.save = function() {
-            $location.path('/userList');
           //validate login then call a WS for redirect
-            /*
-            loginService.validar({user: $scope.user, pass: $scope.pass}).then(function (object) {
-            if(object.data['error'] != undefined){
-              $scope.error = object.data['error'];
+            if ($scope.password == $scope.passwordr){
+                adminService.createUser({email: $scope.email, password: $scope.password, rol:$scope.chosenRole.value, fullName: $scope.fullName}).then(function (object) {
+                if(object.data['error'] != undefined){
+                  $scope.msg = object.data['error'];
+                }else{
+                    $scope.email="";
+                    $scope.password="";
+                    $scope.passwordr="";
+                    $scope.fullName="";
+                    $scope.msg = "";
+                  $scope.msg = object.data['reason'];
+                    adminService.users({}).then(function (object) {
+                    if(object.data['result'] != undefined){
+                      $scope.users = object.data['result'];
+                    }else{
+                        $scope.users = [];
+                    }
+                  });
+                  $location.path('/userList');
+                }
+              });
             }else{
-              $location.path('/login');
+                $scope.msg="Las contraseñas no coinciden";
             }
-          });
-           */
+
+      };
+
+        $scope.delete = function(id) {
+          //validate login then call a WS for redirect
+                adminService.deleteUser({userId: id}).then(function (object) {
+                if(object.data['error'] != undefined){
+                  $scope.msg = object.data['error'];
+                }else{
+                    $scope.email="";
+                    $scope.password="";
+                    $scope.passwordr="";
+                    $scope.fullName="";
+                    $scope.msg = "";
+                  $scope.msg = object.data['reason'];
+                    adminService.users({}).then(function (object) {
+                    if(object.data['result'] != undefined){
+                      $scope.users = object.data['result'];
+                    }else{
+                        $scope.users = [];
+                    }
+                  });
+                  $location.path('/userList');
+                }
+              });
+
       };
 
         $scope.logout = function() {
             $location.path('/');
-          //validate login then call a WS for redirect
-            /*
-            loginService.validar({user: $scope.user, pass: $scope.pass}).then(function (object) {
-            if(object.data['error'] != undefined){
-              $scope.error = object.data['error'];
-            }else{
-              $location.path('/login');
-            }
-          });
-           */
       };
+
+        $scope.formTitle = "Nuevo Usuario";
+        $scope.saveButton = "Crear";
+
+        $scope.roles=[{name:"Administrador", value:1},{name:"Usuario",value:2}];
+
     }]);

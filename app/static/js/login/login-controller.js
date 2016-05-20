@@ -4,17 +4,18 @@ stohtModule.controller('loginController',
         $scope.msg = "";
 
         $scope.authenticate = function() {
-            $location.path('/admin');
-          //validate login then call a WS for redirect
-            /*
-            loginService.validar({user: $scope.user, pass: $scope.pass}).then(function (object) {
+            
+            loginService.authenticate({email: $scope.email, password: $scope.password}).then(function (object) {
             if(object.data['error'] != undefined){
-              $scope.error = object.data['error'];
+                $scope.msg = object.data['error'];
             }else{
-              $location.path('/login');
+                $scope.rol = object.data['rol'];
+                if ($scope.rol == 1){
+                    $location.path('/admin');
+                }
             }
           });
-           */
+
       };
 
     }]);

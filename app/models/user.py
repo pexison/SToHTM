@@ -9,6 +9,8 @@ CONST_MAX_PASSWORD = 200
 CONST_MAX_EMAIL = 30
 CONST_MIN_LONG = 1
 CONST_MIN_PASSWORD = 1
+CONST_MIN_ROL=1
+CONST_MAX_ROL=2
 
 
 class User (db.Model):
@@ -19,12 +21,14 @@ class User (db.Model):
     email = db.Column(db.String(30), unique=True)
     fullname = db.Column(db.String(50))
     password = db.Column(db.String(200))
+    rol = db.Column(db.Integer)
 
-    def __init__(self, email=None, fullname=None, password=None):
+    def __init__(self, email=None, fullname=None, password=None, rol=None):
         '''Constructor del modelo usuario'''
         self.email = email
         self.fullname = fullname
         self.password = password
+        self.rol = rol
 
     def __repr__(self):
         '''Representacion en string del modelo Usuario'''
@@ -57,7 +61,7 @@ class User (db.Model):
             user = self.query.filter_by(userId=id).all()
             return user
 
-    def createUser(self, email, fullname, password):
+    def createUser(self, email, fullname, password, rol):
         '''Permite insertar un usuario'''
 
         ''' Chequeos longitud '''
@@ -66,10 +70,10 @@ class User (db.Model):
         checkLongPassword = CONST_MIN_PASSWORD <= len(password) <= CONST_MAX_PASSWORD
 
         if checkLongEmail and checkLongFullname and checkLongPassword:
-            findUser = self.getUserByEmail(email)
+            findUser = self.getUserByEmail(self, email)
 
             if findUser == []:
-                newUser = User(email, fullname, password)
+                newUser = User(email, fullname, password, rol)
                 db.session.add(newUser)
                 db.session.commit()
                 return {'status': 'success', 'reason': 'User Created'}
@@ -78,7 +82,7 @@ class User (db.Model):
 
         return {'status': 'failed', 'reason': 'Check failed, 1 < Email < 30 - 1 < fullname < 50 - 1 < pass < 200'}
 
-    def updateUser(self, email=None, new_fullname=None, new_password=None):
+    def updateUser(self, email=None, new_fullname=None, new_password=None, new_rol=None):
         '''Permite actualizar los datos de un usuario'''
 
         checkLongEmail = CONST_MIN_LONG <= len(email) <= CONST_MAX_EMAIL
@@ -94,19 +98,23 @@ class User (db.Model):
                     checkLongNewPassword = CONST_MIN_LONG <= len(new_password) <= CONST_MAX_PASSWORD
                     findUser[0].password = new_password
                     findUser[0].fullname = new_fullname
+                    findUser[0].rol = new_rol
 
                 elif new_fullname != None and new_password == None:
                     checkLongNewFullname = CONST_MIN_LONG <= len(new_fullname) <= CONST_MAX_FULLNAME
                     findUser[0].fullname = new_fullname
+                    findUser[0].rol = new_rol
 
                 elif new_fullname == None and new_password != None:
                     checkLongNewPassword = CONST_MIN_LONG <= len(new_password) <= CONST_MAX_PASSWORD
                     findUser[0].password = new_password
+                    findUser[0].rol = new_rol
 
                 else:
                     return {'status': 'failed', 'reason': ' Name or password should be != None '}
 
                 db.session.commit()
+
                 return {'status': 'success', 'reason': 'User updated'}
 
             else:
@@ -117,9 +125,8 @@ class User (db.Model):
     def deleteUser(self, id):
         '''Permite eliminar un usuario'''
 
-        findUser = self.getUserById(self,id)
+        findUser = self.getUserById(id)
         if findUser != []:
-            print ('asdasd')
             for i in findUser:
                 self.query.filter_by(userId=id).delete()
             db.session.commit()
