@@ -128,7 +128,7 @@ class User (db.Model):
     def deleteUser(self, id):
         '''Permite eliminar un usuario'''
 
-        findUser = self.getUserById(self,id)
+        findUser = self.getUserById(id)
         if findUser != []:
             for i in findUser:
                 self.query.filter_by(userId=id).delete()
