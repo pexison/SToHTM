@@ -92,12 +92,44 @@ stohtModule.controller('userListController',
                     $scope.fullName="";
                     $scope.msg = "";
                   $scope.msg = object.data['reason'];
+                    adminService.users({}).then(function (object) {
+                    if(object.data['result'] != undefined){
+                      $scope.users = object.data['result'];
+                    }else{
+                        $scope.users = [];
+                    }
+                  });
                   $location.path('/userList');
                 }
               });
             }else{
                 $scope.msg="Las contraseñas no coinciden";
             }
+
+      };
+
+        $scope.delete = function(id) {
+          //validate login then call a WS for redirect
+                adminService.deleteUser({userId: id}).then(function (object) {
+                if(object.data['error'] != undefined){
+                  $scope.msg = object.data['error'];
+                }else{
+                    $scope.email="";
+                    $scope.password="";
+                    $scope.passwordr="";
+                    $scope.fullName="";
+                    $scope.msg = "";
+                  $scope.msg = object.data['reason'];
+                    adminService.users({}).then(function (object) {
+                    if(object.data['result'] != undefined){
+                      $scope.users = object.data['result'];
+                    }else{
+                        $scope.users = [];
+                    }
+                  });
+                  $location.path('/userList');
+                }
+              });
 
       };
 
