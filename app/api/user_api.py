@@ -3,7 +3,7 @@ import hashlib
 
 from app.models.user import User
 
-user = Blueprint('user', __name__)
+user = Blueprint('user', __name__,)
 
 
 @user.route('/user/create', methods=['POST'])
@@ -21,10 +21,10 @@ def create_user():
         else:
 
             UserInstance = User()
-            encodedPassword=toMd5(password.encode('utf-8'))
-            result = UserInstance.createUser(email, fullName,encodedPassword ,int(rol))
+            encodedPassword = toMd5(password.encode('utf-8'))
+            result = UserInstance.createUser(
+                email, fullName, encodedPassword, int(rol))
             res = result
-
 
     return json.dumps(res)
 
@@ -34,7 +34,8 @@ def get_user():
     id = request.args.get('id')
     UserInstance = User()
     result = UserInstance.getUserById(int(id))[0]
-    return json.dumps({'id':result.userId,'rol':result.rol ,'email': result.email, 'fullName': result.fullname})
+    return json.dumps({'id': result.userId, 'rol': result.rol, 'email': result.email, 'fullName': result.fullname})
+
 
 @user.route('/users', methods=['GET'])
 def get_users():
@@ -42,13 +43,16 @@ def get_users():
     users = UserInstance.getUsers()
     result = []
     for user in users:
-        result.append({'id':user.userId ,'fullName':user.fullname,'email':user.email,'rol': user.rol})
+        result.append({'id': user.userId, 'fullName': user.fullname,
+                       'email': user.email, 'rol': user.rol})
 
     return json.dumps({'result': result})
 
+
 @user.route('/user/authenticate', methods=['POST'])
 def authenticate_user():
-    results = [{'error': 'Este usuario no está registrado!!'}, {'error': 'Contraseña invalida!!'}]
+    results = [{'error': 'Este usuario no está registrado!!'},
+               {'error': 'Contraseña invalida!!'}]
     email = request.args.get('email')
     password = request.args.get('password')
 
@@ -62,7 +66,7 @@ def authenticate_user():
             res = {'error': 'Debe introducir email y password'}
         else:
             UserInstance = User()
-
+            print(UserInstance.getUserByEmail(email))
             user = UserInstance.getUserByEmail(email)[0]
             if user == None:
                 res = results[0]
@@ -85,9 +89,9 @@ def update_user():
     rol = request.args.get('rol')
     UserInstance = User()
     if request.args.get('password') is None or len(request.args.get('password')) == 0:
-        newPassword=None
+        newPassword = None
     else:
-        newPassword=toMd5(password.encode('utf-8'))
+        newPassword = toMd5(password.encode('utf-8'))
     result = UserInstance.updateUser(email, fullname, newPassword, rol)
     return json.dumps({"updated_user": result})
 
@@ -98,6 +102,7 @@ def delete_user():
     UserInstance = User()
     result = UserInstance.deleteUser(int(userId))
     return json.dumps({'deleted_user': result})
+
 
 def toMd5(password):
     md = hashlib.md5()

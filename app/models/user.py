@@ -33,7 +33,8 @@ class User(db.Model):
     def __repr__(self):
         '''Representacion en string del modelo Usuario'''
         return \
-            '<fullname %r, email %r, password %r >' % (self.fullname, self.email, self.password)
+            '<fullname %r, email %r, password %r >' % (
+                self.fullname, self.email, self.password)
 
     def getUsers(self):
         '''Permite obtener todos los usuarios con sus atributos'''
@@ -72,8 +73,10 @@ class User(db.Model):
 
         ''' Chequeos longitud '''
         checkLongEmail = CONST_MIN_LONG <= len(email) <= CONST_MAX_EMAIL
-        checkLongFullname = CONST_MIN_LONG <= len(fullname) <= CONST_MAX_FULLNAME
-        checkLongPassword = CONST_MIN_PASSWORD <= len(password) <= CONST_MAX_PASSWORD
+        checkLongFullname = CONST_MIN_LONG <= len(
+            fullname) <= CONST_MAX_FULLNAME
+        checkLongPassword = CONST_MIN_PASSWORD <= len(
+            password) <= CONST_MAX_PASSWORD
 
         if checkLongEmail and checkLongFullname and checkLongPassword:
             findUser = self.getUserByEmail(email)
@@ -91,6 +94,12 @@ class User(db.Model):
     def updateUser(self, email=None, new_fullname=None, new_password=None, new_rol=None):
         '''Permite actualizar los datos de un usuario'''
 
+        # None checks
+        email = email or ""
+        new_fullname = new_fullname or ""
+        new_password = new_password or ""
+        new_rol = new_rol or 0
+
         checkLongEmail = CONST_MIN_LONG <= len(email) <= CONST_MAX_EMAIL
 
         if (checkLongEmail):
@@ -98,20 +107,24 @@ class User(db.Model):
 
             if findUser != []:
 
-                if new_fullname != None and new_password != None:
-                    checkLongNewFullname = CONST_MIN_LONG <= len(new_fullname) <= CONST_MAX_FULLNAME
-                    checkLongNewPassword = CONST_MIN_LONG <= len(new_password) <= CONST_MAX_PASSWORD
+                if new_fullname != "" and new_password != "":
+                    checkLongNewFullname = CONST_MIN_LONG <= len(
+                        new_fullname) <= CONST_MAX_FULLNAME
+                    checkLongNewPassword = CONST_MIN_LONG <= len(
+                        new_password) <= CONST_MAX_PASSWORD
                     findUser[0].password = new_password
                     findUser[0].fullname = new_fullname
                     findUser[0].rol = new_rol
 
-                elif new_fullname != None and new_password == None:
-                    checkLongNewFullname = CONST_MIN_LONG <= len(new_fullname) <= CONST_MAX_FULLNAME
+                elif new_fullname != "" and new_password == "":
+                    checkLongNewFullname = CONST_MIN_LONG <= len(
+                        new_fullname) <= CONST_MAX_FULLNAME
                     findUser[0].fullname = new_fullname
                     findUser[0].rol = new_rol
 
-                elif new_fullname == None and new_password != None:
-                    checkLongNewPassword = CONST_MIN_LONG <= len(new_password) <= CONST_MAX_PASSWORD
+                elif new_fullname == "" and new_password != "":
+                    checkLongNewPassword = CONST_MIN_LONG <= len(
+                        new_password) <= CONST_MAX_PASSWORD
                     findUser[0].password = new_password
                     findUser[0].rol = new_rol
 
