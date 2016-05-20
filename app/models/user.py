@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-.
 
-import sys
-sys.path.append('app/models')
-from db import *
-
+from app.models.db import db
 
 # Declaracion de constantes.
 CONST_MAX_USER = 16
@@ -69,14 +66,14 @@ class User (db.Model):
         checkLongPassword = CONST_MIN_PASSWORD <= len(password) <= CONST_MAX_PASSWORD
 
         if checkLongEmail and checkLongFullname and checkLongPassword:
-            findUser = self.getUserByEmail(self, email)
+            findUser = self.getUserByEmail(email)
 
             if findUser == []:
                 newUser = User(email, fullname, password)
                 db.session.add(newUser)
                 db.session.commit()
                 return {'status': 'success', 'reason': 'User Created'}
-            else: 
+            else:
                 return {'status': 'failed', 'reason': 'The user is already created'}
 
         return {'status': 'failed', 'reason': 'Check failed, 1 < Email < 30 - 1 < fullname < 50 - 1 < pass < 200'}
@@ -88,7 +85,7 @@ class User (db.Model):
 
 
         if (checkLongEmail):
-            findUser = self.getUserByEmail(self, email)
+            findUser = self.getUserByEmail(email)
 
             if findUser != []:
 
@@ -127,7 +124,5 @@ class User (db.Model):
                 self.query.filter_by(userId=id).delete()
             db.session.commit()
             return {'status': 'success', 'reason': 'User deleted'}
-        else:
-            {'status': 'failed', 'reason': 'Couldnt find user :('}
 
         return {'status': 'failed', 'reason': 'Couldnt find user :('}
