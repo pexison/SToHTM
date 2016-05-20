@@ -40,3 +40,21 @@
     -webkit-filter: hue-rotate(-360deg);
   }
 }
+
+/*-----------------------------------*\
+  $USER PIC CIRCLE
+\*-----------------------------------*/
+.NkN0Fc {
+    border: 2px solid #fff;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    display: inline-block;
+    height: 128px;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-70%);
+    width: 128px;
+}
+
+.JvYz0 {
+    height: 30px;
+}

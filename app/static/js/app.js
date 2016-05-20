@@ -10,6 +10,9 @@ stohtModule.config(function ($routeProvider) {
             }).when('/userList', {
                 controller: 'userListController',
                 templateUrl: 'views/admin/userList.html'
+            }).when('/editUser', {
+                controller: 'editUserController',
+                templateUrl: 'views/admin/editUser.html'
             })
 });
 
