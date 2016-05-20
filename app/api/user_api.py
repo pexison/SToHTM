@@ -92,10 +92,11 @@ def update_user():
     return json.dumps({"updated_user": result})
 
 
-@user.route('/user/<id>/delete', methods=['POST'])
-def delete_user(id):
+@user.route('/user/delete', methods=['POST'])
+def delete_user():
+    userId = request.args.get('userId')
     UserInstance = User()
-    result = UserInstance.deleteUser(int(id))
+    result = UserInstance.deleteUser(int(userId))
     return json.dumps({'deleted_user': result})
 
 def toMd5(password):
