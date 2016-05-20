@@ -18,8 +18,8 @@
                 <center>
                     <h2 class="form-signin-heading">Inicia Sesión</h2>
                 </center>
-                <input  type="email" id="inputEmail" class="form-control" placeholder="Correo" ng-enter="home0()">
-                <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" ng-enter="home0()">
+                <input  type="email" id="inputEmail" ng-model="email" class="form-control" placeholder="Correo" ng-enter="authenticate()">
+                <input type="password" id="inputPassword" ng-model="password" class="form-control" placeholder="Contraseña" ng-enter="authenticate()">
                 <button class="btn btn-lg btn-primary btn-block butt" ng-click="authenticate()" type="button">Ingresar</button>
                 <center>
                     <div id="error" style="color: red">{{msg}}</div>
