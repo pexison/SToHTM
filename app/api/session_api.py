@@ -1,0 +1,64 @@
+from flask import Blueprint, json, request, session
+import hashlib
+
+from app.models.user import User
+from app.utility.encoder import toMd5
+
+auth = Blueprint('auth', __name__,)
+
+@auth.route('/user/check', methods=['GET'])
+def check_session():
+    permissions = {0: '/',
+                   1: '/admin',
+                   2: '/user'}
+    securityLvl = int(request.args.get('securityLvl'))
+    if "rol" in session:
+        if session["rol"]== securityLvl:
+            print(session["rol"])
+            res = {'actorName': session['name'] , 'actorRol': session['rol']}
+        else:
+            print(session["rol"])
+            res = {'actorName': session['name'], 'actorRol': session['rol'], 'redirect':permissions[session['rol']]}
+    else:
+        if securityLvl == 0:
+            res = {'actorName': 'Usuario no registrado', 'actorRol': 0}
+        else:
+            res = {'actorName': 'Usuario no registrado', 'actorRol': 0, 'redirect':permissions[0]}
+    return json.dumps(res)
+
+@auth.route('/user/logout', methods=['GET'])
+def logout():
+    if "name" in session:
+        session.pop("name", None)
+        session.pop("rol", None)
+    return json.dumps({})
+
+@auth.route('/user/authenticate', methods=['POST'])
+def authenticate_user():
+    results = [{'error': 'Este usuario no está registrado!!'},
+               {'error': 'Contraseña invalida!!'}]
+    email = request.args.get('email')
+    password = request.args.get('password')
+
+    if "actor" in session:
+        session.pop("rol", None)
+        session.pop("name", None)
+    if request.args.get('email') is None or len(request.args.get('email')) == 0:
+        res = {'error': 'Debe introducir email y password'}
+    else:
+        if request.args.get('password') is None or len(request.args.get('password')) == 0:
+            res = {'error': 'Debe introducir email y password'}
+        else:
+            UserInstance = User()
+            user = UserInstance.getUserByEmail(email)[0]
+            if user == None:
+                res = results[0]
+            else:
+                if user.password == toMd5(password.encode('utf-8')):
+                    session['name'] = user.fullname
+                    session['rol'] = user.rol
+                    res = {'rol': user.rol}
+                else:
+                    res = results[1]
+
+    return json.dumps(res)
