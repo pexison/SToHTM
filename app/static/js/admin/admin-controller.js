@@ -1,31 +1,52 @@
+//Controlador del home (administrador)
 stohtModule.controller('adminController',
-   ['$scope', '$location', '$route', 'flash', 'adminService',
-    function ($scope, $location, $route, flash, adminService) {
+   ['$scope', '$location', '$route', 'flash', 'adminService', 'loginService',
+    function ($scope, $location, $route, flash, adminService, loginService) {
+        loginService.check({'securityLvl': 1}).then(function (object) {
+                if (object.data['redirect'] == undefined) {
+                    $scope.actorName = object.data['actorName'];
+                    $scope.actorRol = object.data['actorRol'];
+                } else {
+                    $location.path(object.data['redirect']);
+                }
+            });
         $scope.msg = "";
+
         $scope.logout = function() {
-            $location.path('/');
-      };
+            loginService.logout().then(function(object){
+                $location.path('/');
+            });
+
+        };
 
     }]);
 
-
-
+//controlador de edicion de usuario (administrador)
 stohtModule.controller('editUserController',
-   ['$scope', '$location', '$route', 'flash', 'adminService',
-    function ($scope, $location, $route, flash, adminService) {
+   ['$scope', '$location', '$route', 'flash', 'adminService','loginService',
+    function ($scope, $location, $route, flash, adminService, loginService) {
+        loginService.check({'securityLvl': 1}).then(function (object) {
+                if (object.data['redirect'] == undefined) {
+                    $scope.actorName = object.data['actorName'];
+                    $scope.actorRol = object.data['actorRol'];
+                } else {
+                    $location.path(object.data['redirect']);
+                }
+            });
         $scope.msg = "";
+        $scope.changeMail = "checked";
         $scope.formTitle = "Editar Usuario";
         $scope.saveButton = "Actualizar";
-        var searchObject = $location.search();
-        $scope.id=searchObject['user'];
-        alert($scope.id);
 
+        $scope.id=$location.search()['user'];
+        $scope.roles=[{name:"Administrador", value:1},{name:"Usuario",value:2}];
 
+        //Obtener datos de usuario
         adminService.getUser({id: $scope.id}).then(function (object) {
             if(object.data['error'] != undefined){
               $scope.error = object.data['error'];
             }else{
-                $scope.roles=[{name:"Administrador", value:1},{name:"Usuario",value:2}];
+
                 $scope.id=object.data['id'];
                 $scope.email=object.data['email'];
                 $scope.password="";
@@ -36,12 +57,8 @@ stohtModule.controller('editUserController',
           });
 
 
-        $scope.logout = function() {
-            $location.path('/');
-      };
-
+        //Guardar cambios
         $scope.save = function() {
-          //validate login then call a WS for redirect
             if ($scope.password == $scope.passwordr) {
                 adminService.updateUser({
                     email: $scope.email,
@@ -61,17 +78,45 @@ stohtModule.controller('editUserController',
 
       };
 
+
+        //cierre de sesion
+        $scope.logout = function() {
+            loginService.logout().then(function(object){
+                $location.path('/');
+            });
+
+        };
+
     }]);
 
+//controlador de creacion de usuarios y lista de usuarios (administrador)
 stohtModule.controller('userListController',
-   ['$scope', '$location', '$route', 'flash', 'adminService',
-    function ($scope, $location, $route, flash, adminService) {
+   ['$scope', '$location', '$route', 'flash', 'adminService','loginService',
+    function ($scope, $location, $route, flash, adminService, loginService) {
+        loginService.check({'securityLvl': 1}).then(function (object) {
+                if (object.data['redirect'] == undefined) {
+                    $scope.actorName = object.data['actorName'];
+                    $scope.actorRol = object.data['actorRol'];
+                } else {
+                    $location.path(object.data['redirect']);
+                }
+            });
+        $scope.msg = "";
+        $scope.changeMail = "";
+        $scope.formTitle = "Nuevo Usuario";
+        $scope.saveButton = "Crear";
+
         $location.search({});
+        $scope.roles=[{name:"Administrador", value:1},{name:"Usuario",value:2}];
+        $scope.chosenRole=$scope.roles[1];
+
+        //Ver usuario
         $scope.viewUser = function(id) {
             $location.search('user', id);
             $location.path('/editUser');
+        };
 
-      };
+        //Obtener Lista de usuarios
         adminService.users({}).then(function (object) {
             if(object.data['result'] != undefined){
               $scope.users = object.data['result'];
@@ -80,7 +125,7 @@ stohtModule.controller('userListController',
             }
           });
 
-
+        //Crear usuario
         $scope.save = function() {
           //validate login then call a WS for redirect
             if ($scope.password == $scope.passwordr){
@@ -110,8 +155,8 @@ stohtModule.controller('userListController',
 
       };
 
+        //Eliminar usuario
         $scope.delete = function(id) {
-          //validate login then call a WS for redirect
                 adminService.deleteUser({userId: id}).then(function (object) {
                 if(object.data['error'] != undefined){
                   $scope.msg = object.data['error'];
@@ -121,28 +166,28 @@ stohtModule.controller('userListController',
                     $scope.passwordr="";
                     $scope.fullName="";
                     $scope.msg = "";
-                  $scope.msg = object.data['reason'];
+                    $scope.msg = object.data['reason'];
+
+                    //Recargar lista de usuarios
                     adminService.users({}).then(function (object) {
-                    if(object.data['result'] != undefined){
-                      $scope.users = object.data['result'];
-                    }else{
-                        $scope.users = [];
-                    }
+                        if(object.data['result'] != undefined){
+                          $scope.users = object.data['result'];
+                        }else{
+                            $scope.users = [];
+                        }
                   });
+
                   $location.path('/userList');
                 }
               });
 
       };
 
+        //cierre de sesion
         $scope.logout = function() {
-            $location.path('/');
-      };
+            loginService.logout().then(function(object){
+                $location.path('/');
+            });
 
-        $scope.formTitle = "Nuevo Usuario";
-        $scope.saveButton = "Crear";
-
-        $scope.roles=[{name:"Administrador", value:1},{name:"Usuario",value:2}];
-        $scope.chosenRole=$scope.roles[1];
-
+        };
     }]);
