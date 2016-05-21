@@ -4,7 +4,7 @@
                 <img src="https://lh3.googleusercontent.com/-sJgb7cjiDS0/AAAAAAAAAAI/AAAAAAAAAAA/gwjdXtRH9Hs/s128-p-k-rw-no/photo.jpg" class="NkN0Fc inner-title" jsname="SRZeM">
             </div>
             <div class="inner-title site__title">{{formTitle}}</div>
-            <input id="email" ng-model="$parent.email" type="email" class="form-control" placeholder="Correo" ng-enter="save()" >
+            <input id="email" ng-model="$parent.email" type="email" class="form-control" placeholder="Correo" ng-enter="save()" ng-disabled="$parent.changeMail" >
             <input id="name" ng-model="$parent.fullName" type="text" class="form-control repeat-pass" placeholder="Nombre completo" ng-enter="save()">
             <div class="input-group ">
                 <span id="role" class="input-group-addon module mid-input" >Rol:</span>
