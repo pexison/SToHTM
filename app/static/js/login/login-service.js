@@ -1,5 +1,4 @@
-stohtModule.service('loginService', ['$q', '$http', function($q, $http) {
-
+stohtModule.service('loginService', ['$q', '$http',function($q, $http) {
 this.authenticate = function(args) {
         return  $http({
           url: "user/authenticate",
@@ -8,31 +7,22 @@ this.authenticate = function(args) {
         });
     };
 
-    /*
-   this.checkActor = function(args){
-        return  $http({
-          url: "normal/checkActor",
+   this.check = function(args){
+
+       return  $http({
+          url: "user/check",
+          method: 'GET',
+          params: args
+        });
+   };
+    
+    this.logout = function(args){
+
+       return  $http({
+          url: "user/logout",
           method: 'GET',
           params: args
         });
    };
 
-
-
-    this.registrarUsuario = function(args) {
-        return  $http({
-          url: "normal/register",
-          method: 'POST',
-          params: args
-        });
-    };
-
-    this.logout = function(args) {
-        return  $http({
-          url: "normal/logout",
-          method: 'POST',
-          params: args
-        });
-    };
-*/
 }]);
