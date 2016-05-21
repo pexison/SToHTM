@@ -1,14 +1,12 @@
 from flask import Blueprint, json, request, session
-import hashlib
 
 from app.models.user import User
+from app.utility.encoder import toMd5
 
 user = Blueprint('user', __name__,)
 
-
 @user.route('/user/create', methods=['POST'])
 def create_user():
-    params = request.get_json()
     email = request.args.get('email')
     fullName = request.args.get('fullName')
     rol = request.args.get('rol')
@@ -49,36 +47,7 @@ def get_users():
     return json.dumps({'result': result})
 
 
-@user.route('/user/authenticate', methods=['POST'])
-def authenticate_user():
-    results = [{'error': 'Este usuario no está registrado!!'},
-               {'error': 'Contraseña invalida!!'}]
-    email = request.args.get('email')
-    password = request.args.get('password')
 
-    if "actor" in session:
-        session.pop("rol", None)
-        session.pop("name", None)
-    if request.args.get('email') is None or len(request.args.get('email')) == 0:
-        res = {'error': 'Debe introducir email y password'}
-    else:
-        if request.args.get('password') is None or len(request.args.get('password')) == 0:
-            res = {'error': 'Debe introducir email y password'}
-        else:
-            UserInstance = User()
-            print(UserInstance.getUserByEmail(email))
-            user = UserInstance.getUserByEmail(email)[0]
-            if user == None:
-                res = results[0]
-            else:
-                if user.password == toMd5(password.encode('utf-8')):
-                    session['name'] = user.fullname
-                    session['rol'] = user.rol
-                    res = {'rol': user.rol}
-                else:
-                    res = results[1]
-
-    return json.dumps(res)
 
 
 @user.route('/user/update', methods=['PUT'])
@@ -104,9 +73,3 @@ def delete_user():
     return json.dumps({'deleted_user': result})
 
 
-def toMd5(password):
-    md = hashlib.md5()
-    md.update(password)
-    encoded = md.hexdigest()
-    md = hashlib.md5()
-    return encoded
