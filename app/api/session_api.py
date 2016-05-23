@@ -14,10 +14,8 @@ def check_session():
     securityLvl = int(request.args.get('securityLvl'))
     if "rol" in session:
         if session["rol"]== securityLvl:
-            print(session["rol"])
             res = {'actorName': session['name'] , 'actorRol': session['rol']}
         else:
-            print(session["rol"])
             res = {'actorName': session['name'], 'actorRol': session['rol'], 'redirect':permissions[session['rol']]}
     else:
         if securityLvl == 0:
