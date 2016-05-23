@@ -4,6 +4,9 @@ stohtModule.config(function ($routeProvider) {
     $routeProvider.when('/', {
                 controller: 'loginController',
                 templateUrl: 'views/login/login.html'
+            }).when('/signup', {
+                controller: 'signupController',
+                templateUrl: 'views/signup/signup.html'
             }).when('/admin', {
                 controller: 'adminController',
                 templateUrl: 'views/admin/home.html'
@@ -13,6 +16,9 @@ stohtModule.config(function ($routeProvider) {
             }).when('/editUser', {
                 controller: 'editUserController',
                 templateUrl: 'views/admin/editUser.html'
+            }).when('/user', {
+                controller: 'userController',
+                templateUrl: 'views/user/home.html'
             })
 });
 
