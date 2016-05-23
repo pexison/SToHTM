@@ -18,14 +18,27 @@ stohtModule.controller('loginController',
             if(object.data['error'] != undefined){
                 $scope.msg = object.data['error'];
             }else{
-                $scope.rol = object.data['rol'];
-                if ($scope.rol == 1){
-                    $location.path('/admin');
+                if (object.data['status'] != 'failure'){
+                    $scope.rol = object.data['rol'];
+                    if ($scope.rol == 1){
+                        $location.path('/admin');
+                    }else{
+                        if ($scope.rol == 2){
+                        $location.path('/user');
+                        }
+                    }
+                }else{
+                   $scope.msg = object.data['reason'];
                 }
             }
           });
 
       };
+
+        //registro
+        $scope.signup = function() {
+            $location.path('/signup');
+        };
 
     }]);
 
