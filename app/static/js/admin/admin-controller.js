@@ -127,27 +127,31 @@ stohtModule.controller('userListController',
 
         //Crear usuario
         $scope.save = function() {
-          //validate login then call a WS for redirect
             if ($scope.password == $scope.passwordr){
                 adminService.createUser({email: $scope.email, password: $scope.password, rol:$scope.chosenRole.value, fullName: $scope.fullName}).then(function (object) {
-                if(object.data['error'] != undefined){
-                  $scope.msg = object.data['error'];
-                }else{
-                    $scope.email="";
-                    $scope.password="";
-                    $scope.passwordr="";
-                    $scope.fullName="";
-                    $scope.msg = "";
-                  $scope.msg = object.data['reason'];
-                    adminService.users({}).then(function (object) {
-                    if(object.data['result'] != undefined){
-                      $scope.users = object.data['result'];
-                    }else{
-                        $scope.users = [];
+                if (object.data['error'] != undefined) {
+                        $scope.msg = object.data['error'];
+                    } else {
+                        if (object.data['status'] != 'failure') {
+
+                            $scope.email="";
+                            $scope.password="";
+                            $scope.passwordr="";
+                            $scope.fullName="";
+                            $scope.msg = "";
+                            $scope.msg = object.data['reason'];
+                            adminService.users({}).then(function (object) {
+                                if(object.data['result'] != undefined){
+                                    $scope.users = object.data['result'];
+                                }else{
+                                    $scope.users = [];
+                                }
+                            });
+                            $location.path('/userList');
+                        }else{
+                            $scope.msg = object.data['reason'];
+                        }
                     }
-                  });
-                  $location.path('/userList');
-                }
               });
             }else{
                 $scope.msg="Las contraseñas no coinciden";
