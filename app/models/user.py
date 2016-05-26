@@ -78,6 +78,13 @@ class User(db.Model):
         checkLongPassword = CONST_MIN_PASSWORD <= len(
             password) <= CONST_MAX_PASSWORD
 
+        if not checkLongEmail:
+            return {'status': 'failure', 'reason': 'Por favor inserte una dirección de correo electrónico valido'}
+        if not checkLongFullname:
+            return {'status': 'failure', 'reason': 'Por favor inserte un nombre valido'}
+        if not checkLongPassword:
+            return {'status': 'failure', 'reason': 'Por favor inserte una contraseña valida'}
+
         if checkLongEmail and checkLongFullname and checkLongPassword:
             findUser = self.getUserByEmail(email)
 
@@ -85,11 +92,9 @@ class User(db.Model):
                 newUser = User(email, fullname, password, rol)
                 db.session.add(newUser)
                 db.session.commit()
-                return {'status': 'success', 'reason': 'User Created'}
+                return {'status': 'success', 'reason': 'Usuario creado'}
             else:
-                return {'status': 'failure', 'reason': 'The user is already created'}
-
-        return {'status': 'failure', 'reason': 'Check failed, 1 < Email < 30 - 1 < fullname < 50 - 1 < pass < 200'}
+                return {'status': 'failure', 'reason': 'Esta dirección de correo electrónica ya se encuentra registrada'}
 
     def updateUser(self, email=None, new_fullname=None, new_password=None, new_rol=None):
         '''Permite actualizar los datos de un usuario'''
