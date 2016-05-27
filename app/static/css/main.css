@@ -311,9 +311,6 @@ body {
     top: 0;
     margin-left: 60px;
   }
-  .container {
-      padding-left: 15px;
-    }
 }
 
 .clickable-button{
@@ -483,3 +480,17 @@ legend{
   opacity: 0.8;
 }
 
+.banner {
+    margin: auto;
+    text-align: center;
+}
+
+.banner img {
+    width: 80%;
+    margin-top: 3em;
+}
+
+.logo {
+    width: 45%;
+    margin: 3%;
+}
