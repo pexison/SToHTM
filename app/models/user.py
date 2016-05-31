@@ -144,7 +144,7 @@ class User(db.Model):
         '''Permite eliminar un usuario'''
 
         findUser = self.getUserById(id)
-        if findUser != []:
+        if findUser != {'status': 'failure', 'reason': ' Id not integer'}:
             for i in findUser:
                 self.query.filter_by(userId=id).delete()
             db.session.commit()

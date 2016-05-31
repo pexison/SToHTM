@@ -69,8 +69,8 @@ class Profile(db.Model):
         seminarios, ponencias, publicaciones, becas):
 
         '''Permite crearle un perfil a un usuario'''
-        # None checks 
-        
+
+        # None checks        
         email          = email or ""
         sexo           = sexo or ""
         edad           = edad or ""
@@ -119,6 +119,76 @@ class Profile(db.Model):
 
         profile = self.query.filter_by(email=email).all()
         return profile
+    
+    def updateProfile(self, email=None, sexo=None, edad=None, vision=None, habilidades=None, 
+        destrezas=None, formacion=None, experiencia=None, cursos=None, talleres=None, 
+        seminarios=None, ponencias=None, publicaciones=None, becas=None):
+        '''Permite actualizar el perfil de un usuario'''
+
+        # None checks
+        email          = email or ""
+        sexo           = sexo or ""
+        edad           = edad or ""
+        vision         = vision or ""
+        habilidades    = habilidades or ""
+        destrezas      = destrezas or ""
+        formacion      = formacion or ""
+        experiencia    = experiencia or ""
+        cursos         = cursos or ""
+        talleres       = talleres or ""
+        seminarios     = seminarios or ""
+        ponencias      = ponencias or ""
+        publicaciones  = publicaciones or ""
+        becas          = becas or ""
+
+        u = User()
+        findUser = u.getUserByEmail(email)
+
+        findProfile = self.getProfileByEmail(email)
+        
+        if findUser != []:       
+
+            if findProfile != []:
+
+                if sexo != "":
+                    findProfile[0].sexo = sexo
+                if edad != "":
+                    findProfile[0].edad = edad
+                if vision != "":
+                    findProfile[0].vision = vision
+                if habilidades != "":
+                    findProfile[0].habilidades = habilidades
+                if destrezas != "":
+                    findProfile[0].destrezas = destrezas
+                if formacion != "":
+                    findProfile[0].formacion = formacion
+                if experiencia != "":
+                    findProfile[0].experiencia = experiencia
+                if cursos != "":
+                    findProfile[0].cursos = cursos
+                if talleres != "":
+                    findProfile[0].talleres = talleres
+                if seminarios != "":
+                    findProfile[0].seminarios = seminarios
+                if ponencias != "":
+                    findProfile[0].ponencias = ponencias
+                if publicaciones !="":
+                    findProfile[0].publicaciones = publicaciones
+                if becas != "":
+                    findProfile[0].becas = becas
+
+                db.session.commit()
+
+                return {'status': 'success', 'reason': 'Profile updated'}
+
+            else:
+                return {'status': 'failure', 'reason': 'Profile doesnt exists, Use create instead'}    
+
+        else:
+
+            return {'status': 'failure', 'reason': 'Couldnt find user  :( '}
+            
+        
 
 
     def deleteProfile(self, id):
@@ -126,11 +196,10 @@ class Profile(db.Model):
 
         findProfile = self.getProfileById(id)
 
-        if findProfile != []:
+        if findProfile != {'status': 'failure', 'reason': ' Id not integer'}:
             self.query.filter_by(perfilId=id).delete()
             db.session.commit()
+            return {'status': 'success', 'reason': 'Profile deleted'}
         else:
             return {'status': 'failure', 'reason': 'Couldnt find Profile :('}
-
-        return {'status': 'success', 'reason': 'Profile deleted'}
 
