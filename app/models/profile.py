@@ -116,8 +116,7 @@ class Profile(db.Model):
 
     def getProfileByEmail(self, email):
         '''Permite buscar un perfil por su correo'''
-
-        profile = self.query.filter_by(email=email).all()
+        profile = self.query.filter_by(email=email).all()[0]
         return profile
     
     def updateProfile(self, email=None, sexo=None, edad=None, vision=None, habilidades=None, 
@@ -195,6 +194,7 @@ class Profile(db.Model):
         ''' permite borrar un perfil de un usuario '''
 
         findProfile = self.getProfileById(id)
+        print(findProfile)
 
         if findProfile != {'status': 'failure', 'reason': ' Id not integer'}:
             self.query.filter_by(perfilId=id).delete()

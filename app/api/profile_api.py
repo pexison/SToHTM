@@ -69,19 +69,19 @@ def get_user_profile():
     else:
         ProfileInstance = Profile()
         result = ProfileInstance.getProfileByEmail(email)
-
-    print(type(result[0]))
-    # TO DO: not working because a class instance is not json serializable
-    return json.dumps(result)
+    # trick to easily convert the class to something json serializable
+    # we get the  __dict__ an remove the unserializable
+    result.__dict__.pop('_sa_instance_state', None)
+    return json.dumps(result.__dict__)
 
 @profile.route('/user/profile/delete', methods=['POST'])
 def delete_user_profile():
-    # TO DO: problem with model method
+    result = []
     id = request.args.get('id')
     if request.args.get('id') is None or len(request.args.get('id')) == 0:
         res = {'error': 'Debe proporcionar un id válido.'}
     else:
         ProfileInstance = Profile()
-        result = ProfileInstance.deleteProfile(id) 
+        result = ProfileInstance.deleteProfile(int(id))
     return json.dumps(result)       
 
