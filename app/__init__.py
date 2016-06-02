@@ -9,7 +9,9 @@ db = SQLAlchemy(app)
 from app.routes import index
 from app.api.user_api import user
 from app.api.session_api import auth
+from app.api.profile_api import profile
 
 app.config.from_object('config')
 app.register_blueprint(user)
 app.register_blueprint(auth)
+app.register_blueprint(profile)

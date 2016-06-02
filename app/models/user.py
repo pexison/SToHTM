@@ -33,8 +33,8 @@ class User(db.Model):
     def __repr__(self):
         '''Representacion en string del modelo Usuario'''
         return \
-            '<fullname %r, email %r, password %r >' % (
-                self.fullname, self.email, self.password)
+            '<fullname %r, email %r, password %r, rol %r >' % (
+                self.fullname, self.email, self.password, self.rol)
 
     def getUsers(self):
         '''Permite obtener todos los usuarios con sus atributos'''
@@ -78,13 +78,6 @@ class User(db.Model):
         checkLongPassword = CONST_MIN_PASSWORD <= len(
             password) <= CONST_MAX_PASSWORD
 
-        if not checkLongEmail:
-            return {'status': 'failure', 'reason': 'Por favor inserte una dirección de correo electrónico valido'}
-        if not checkLongFullname:
-            return {'status': 'failure', 'reason': 'Por favor inserte un nombre valido'}
-        if not checkLongPassword:
-            return {'status': 'failure', 'reason': 'Por favor inserte una contraseña valida'}
-
         if checkLongEmail and checkLongFullname and checkLongPassword:
             findUser = self.getUserByEmail(email)
 
@@ -92,9 +85,11 @@ class User(db.Model):
                 newUser = User(email, fullname, password, rol)
                 db.session.add(newUser)
                 db.session.commit()
-                return {'status': 'success', 'reason': 'Usuario creado'}
+                return {'status': 'success', 'reason': 'User Created'}
             else:
-                return {'status': 'failure', 'reason': 'Esta dirección de correo electrónica ya se encuentra registrada'}
+                return {'status': 'failure', 'reason': 'The user is already created'}
+
+        return {'status': 'failure', 'reason': 'Check failed, 1 < Email < 30 - 1 < fullname < 50 - 1 < pass < 200'}
 
     def updateUser(self, email=None, new_fullname=None, new_password=None, new_rol=None):
         '''Permite actualizar los datos de un usuario'''
@@ -149,10 +144,30 @@ class User(db.Model):
         '''Permite eliminar un usuario'''
 
         findUser = self.getUserById(id)
-        if findUser != []:
+        if findUser != {'status': 'failure', 'reason': ' Id not integer'}:
             for i in findUser:
                 self.query.filter_by(userId=id).delete()
             db.session.commit()
             return {'status': 'success', 'reason': 'User deleted'}
 
         return {'status': 'failure', 'reason': 'Couldnt find user :('}
+
+
+    def updateRol(self, email=None, new_rol=None):
+        '''Permite actualizar los datos de un usuario'''
+
+        # None checks
+        new_rol = new_rol or 0
+
+        findUser = self.getUserByEmail(email)
+
+        if findUser != []:
+            findUser[0].rol = new_rol
+
+            db.session.commit()
+            
+        else:
+            return {'status': 'failure', 'reason': 'Couldnt find user :( '}
+            
+
+        return {'status': 'success', 'reason': 'User updated'}
