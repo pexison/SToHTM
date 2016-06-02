@@ -17,11 +17,13 @@ def check_session():
         if session["rol"] == securityLvl:
             res = {'actorName': session['name'],
                    'actorRol': session['rol'],
-                   'actorId': session['userId']}
+                   'actorId': session['userId'],
+                   'actorEmail': session['email']}
         else:
             res = {'actorName': session['name'],
                    'actorRol': session['rol'],
                    'actorId': session['userId'],
+                   'actorEmail': session['email'],
                    'redirect': permissions[session['rol']]}
     else:
         if securityLvl == 0:
@@ -37,6 +39,7 @@ def logout():
         session.pop("name", None)
         session.pop("rol", None)
         session.pop("userId", None)
+        session.pop("email", None)
     return json.dumps({})
 
 
@@ -51,6 +54,7 @@ def authenticate_user():
         session.pop("rol", None)
         session.pop("name", None)
         session.pop("userId", None)
+        session.pop("email", None)
 
     if request.args.get('email') is None or len(request.args.get('email')) == 0:
         res = {'error': 'Debe introducir email y password'}
@@ -67,6 +71,7 @@ def authenticate_user():
                 session['name'] = user.fullname
                 session['rol'] = user.rol
                 session['userId'] = user.userId
+                session['email'] = user.email
                 res = {'rol': user.rol}
             else:
                 res = results[1]

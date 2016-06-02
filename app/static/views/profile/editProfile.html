@@ -34,8 +34,8 @@
             <label for="sexRadio">Sexo</label><br>
 
             <div class="">
-              <input type="radio" name="sexRadio" value="M" ng-model="profile.sex"> Masculino
-              <input type="radio" name="sexRadio" value="F" ng-model="profile.sex"> Femenino
+              <input type="radio" name="sexRadio" value="M" ng-model="profile.gender"> Masculino
+              <input type="radio" name="sexRadio" value="F" ng-model="profile.gender"> Femenino
             </div>
 
             <div class="form-group">
@@ -98,7 +98,7 @@
               <textarea class="form-control" id="scholarshipsInput" rows="4" ng-model="profile.scholarships"></textarea>
             </div>
 
-            <button class="btn btn-md btn-primary butt" ng-submit="sendForm()" type="button">Guardar Cambios</button>
+            <button class="btn btn-md btn-primary butt" ng-click="sendForm()" type="button">Guardar Cambios</button>
 
           </form>
         </div>

@@ -1,6 +1,7 @@
 from flask import Blueprint, json, request, session
 
 from app.models.user import User
+from app.models.profile import Profile
 from app.utility.encoder import toMd5
 
 user = Blueprint('user', __name__,)
@@ -22,6 +23,12 @@ def create_user():
             encodedPassword = toMd5(password.encode('utf-8'))
             result = UserInstance.createUser(
                 email, fullName, encodedPassword, int(rol))
+
+            if result["status"] == "success":
+                ProfileInstance = Profile()
+                profileResult = ProfileInstance.createProfile(email, "", "", "", "", "", "", "",
+                    "", "", "", "", "", "")
+
             res = result
 
     return json.dumps(res)
