@@ -46,10 +46,6 @@ def get_users():
 
     return json.dumps({'result': result})
 
-
-
-
-
 @user.route('/user/update', methods=['PUT'])
 def update_user():
     email = request.args.get('email')
