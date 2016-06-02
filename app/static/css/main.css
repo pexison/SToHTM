@@ -24,9 +24,9 @@ body {
 }
 
 .template-container {
-  width: 98%;
   padding-top: 10px;
-  padding-left: 255px;
+  margin-left: 255px;
+  padding-left: 10px;
 }
 
 .container .text-muted {
@@ -512,4 +512,13 @@ legend{
 
 .user-profile {
   color: Black;
+  margin-right: 0;
+}
+
+.user-profile-category div {
+  padding-bottom: 10px;
+}
+
+.text-bold {
+  font-weight: bold;
 }

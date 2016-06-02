@@ -21,7 +21,7 @@ stohtModule.config(function ($routeProvider) {
                 templateUrl: 'views/home.html'
             }).when('/profile', {
                 controller: 'profileController',
-                templateUrl: 'views/profile/profile.html'
+                templateUrl: 'views/profile/showProfile.html'
             })
 });
 
