@@ -16,8 +16,17 @@ body {
   font-size: 15px;
 }
 
-.cuerpo{
+.cuerpo {
     margin-top:120px;
+}
+
+.template-wrapper {
+}
+
+.template-container {
+  width: 98%;
+  padding-top: 10px;
+  padding-left: 255px;
 }
 
 .container .text-muted {
@@ -496,7 +505,9 @@ legend{
 }
 
 #sidebar-wrapper {
-    margin-top: -121px;
+    margin-left: 0px;
+    left: auto;
+    margin-top: 0px;
     background: #1F0E2A;;
 }
 
