@@ -15,10 +15,10 @@ body {
   font-weight: normal;
   font-size: 15px;
 }
-
+/*
 .cuerpo {
     margin-top:120px;
-}
+}*/
 
 .template-wrapper {
 }
@@ -505,7 +505,6 @@ legend{
 }
 
 #sidebar-wrapper {
-    margin-left: 0px;
     left: auto;
     margin-top: 0px;
     background: #1F0E2A;;

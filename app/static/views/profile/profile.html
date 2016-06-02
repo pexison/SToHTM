@@ -5,23 +5,25 @@
     </div>
 
     <div id="template-wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <a href="">
-                        Bienvenido
-                    </a>
-                </li>
-                <li>
-                    <a href="#editProfile">Editar perfil</a>
-                </li>
-                <li>
-                    <a href="#userList" ng-if="actorRol === 1">Usuarios</a>
-                    <a ng-click="logout()">Salir</a>
-                </li>
-            </ul>
+        <div id="wrapper">
+          <div id="sidebar-wrapper">
+              <ul class="sidebar-nav">
+                  <li class="sidebar-brand">
+                      <a href="">
+                          Bienvenido
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#editProfile">Editar perfil</a>
+                  </li>
+                  <li>
+                      <a href="#userList" ng-if="actorRol === 1">Usuarios</a>
+                      <a ng-click="logout()">Salir</a>
+                  </li>
+              </ul>
+          </div>
         </div>
-        <div class="template-container">
+        <div class="cuerpo template-container">
             <div class="container-fluid">
               <div class="row user-profile">
                 <div class="col-xs-2">
