@@ -57,7 +57,7 @@ stohtModule.controller('editProfileController',
         $scope.sendForm = function() {
             profileService.editProfile($scope.profile)
               .then(function(response){
-                $route.reload();
+                $location.path('/profile')
               });
         }
 
