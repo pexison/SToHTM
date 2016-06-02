@@ -6,6 +6,7 @@ from app.utility.encoder import toMd5
 
 auth = Blueprint('auth', __name__,)
 
+
 @auth.route('/user/check', methods=['GET'])
 def check_session():
     permissions = {0: '/',
@@ -13,10 +14,15 @@ def check_session():
                    2: '/user'}
     securityLvl = int(request.args.get('securityLvl'))
     if "rol" in session:
-        if session["rol"]== securityLvl:
-            res = {'actorName': session['name'] , 'actorRol': session['rol']}
+        if session["rol"] == securityLvl:
+            res = {'actorName': session['name'],
+                   'actorRol': session['rol'],
+                   'actorId': session['userId']}
         else:
-            res = {'actorName': session['name'], 'actorRol': session['rol'], 'redirect':permissions[session['rol']]}
+            res = {'actorName': session['name'],
+                   'actorRol': session['rol'],
+                   'actorId': session['userId'],
+                   'redirect': permissions[session['rol']]}
     else:
         if securityLvl == 0:
             res = {'actorName': 'Usuario no registrado', 'actorRol': 0}
@@ -24,12 +30,15 @@ def check_session():
             res = {'actorName': 'Usuario no registrado', 'actorRol': 0, 'redirect':permissions[0]}
     return json.dumps(res)
 
+
 @auth.route('/user/logout', methods=['GET'])
 def logout():
     if "name" in session:
         session.pop("name", None)
         session.pop("rol", None)
+        session.pop("userId", None)
     return json.dumps({})
+
 
 @auth.route('/user/authenticate', methods=['POST'])
 def authenticate_user():
@@ -41,22 +50,25 @@ def authenticate_user():
     if "actor" in session:
         session.pop("rol", None)
         session.pop("name", None)
+        session.pop("userId", None)
+
     if request.args.get('email') is None or len(request.args.get('email')) == 0:
         res = {'error': 'Debe introducir email y password'}
+    elif request.args.get('password') is None or len(request.args.get('password')) == 0:
+        res = {'error': 'Debe introducir email y password'}
     else:
-        if request.args.get('password') is None or len(request.args.get('password')) == 0:
-            res = {'error': 'Debe introducir email y password'}
+        UserInstance = User()
+        users = UserInstance.getUserByEmail(email)
+        if not users:
+            res = results[0]
         else:
-            UserInstance = User()
-            user = UserInstance.getUserByEmail(email)[0]
-            if user == None:
-                res = results[0]
+            user = users[0]
+            if user.password == toMd5(password.encode('utf-8')):
+                session['name'] = user.fullname
+                session['rol'] = user.rol
+                session['userId'] = user.userId
+                res = {'rol': user.rol}
             else:
-                if user.password == toMd5(password.encode('utf-8')):
-                    session['name'] = user.fullname
-                    session['rol'] = user.rol
-                    res = {'rol': user.rol}
-                else:
-                    res = results[1]
+                res = results[1]
 
     return json.dumps(res)
