@@ -1,0 +1,27 @@
+<div ng-include src="'views/navbar.html'"></div>
+
+<div class="container">
+    <div class="banner">
+        <img src="src/banner.png">
+    </div>
+
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="">
+                        Bienvenido
+                    </a>
+                </li>
+                <li>
+                    <a href="#userList" ng-if="actorRol === 1">Usuarios</a>
+                    <a ng-click="logout()">Salir</a>
+                </li>
+            </ul>
+        </div>
+        <div class="cuerpo">
+            <div class="container-fluid">
+            </div>
+        </div>
+    </div>
+</div>

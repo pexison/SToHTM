@@ -482,15 +482,20 @@ legend{
 
 .banner {
     margin: auto;
-    text-align: center;
+    text-align: center;  
 }
 
 .banner img {
-    width: 80%;
-    margin-top: 3em;
+    width: 100%;
+    margin-top: 0.6em;
 }
 
 .logo {
     width: 45%;
     margin: 3%;
+}
+
+#sidebar-wrapper {
+    margin-top: -121px;
+    background: #1F0E2A;;
 }
