@@ -1,0 +1,115 @@
+<div ng-include src="'views/navbar.html'"></div>
+<div class="container">
+    <div class="banner">
+        <img src="src/banner.png">
+    </div>
+
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="">
+                        Bienvenido
+                    </a>
+                </li>
+                <li>
+                    <a href="#editProfile">Editar perfil</a>
+                </li>
+                <li>
+                    <a href="#userList" ng-if="actorRol === 1">Usuarios</a>
+                    <a ng-click="logout()">Salir</a>
+                </li>
+            </ul>
+        </div>
+        <div class="cuerpo">
+            <div class="container-fluid">
+              <div class="row user-profile">
+                <div class="col-xs-2">
+                   Email:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.email}}
+                </div>
+                <div class="col-xs-2">
+                   Sexo:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.gender}}
+                </div>
+                <div class="col-xs-2">
+                   Edad:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.age}}
+                </div>
+                <div class="col-xs-2">
+                   Visión:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.vision}}
+                </div>
+                <div class="col-xs-2">
+                   Habilidades:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.abilities}}
+                </div>
+                <div class="col-xs-2">
+                   Destrezas:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.skills}}
+                </div>
+                <div class="col-xs-2">
+                   Formación:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.formation}}
+                </div>
+                <div class="col-xs-2">
+                   Experiencia:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.experience}}
+                </div>
+                <div class="col-xs-2">
+                   Cursos:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.curses}}
+                </div>
+                <div class="col-xs-2">
+                   Talleres:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.workshops}}
+                </div>
+                <div class="col-xs-2">
+                   Seminarios:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.seminars}}
+                </div>
+                <div class="col-xs-2">
+                   Ponencias:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.papers}}
+                </div>
+                <div class="col-xs-2">
+                   Publicaciones:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.publications}}
+                </div>
+                <div class="col-xs-2">
+                   Becas:
+                </div>
+                <div class="col-xs-4">
+                  {{profile.scholarships}}
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>

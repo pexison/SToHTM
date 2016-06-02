@@ -19,6 +19,9 @@ stohtModule.config(function ($routeProvider) {
             }).when('/user', {
                 controller: 'userController',
                 templateUrl: 'views/home.html'
+            }).when('/profile', {
+                controller: 'profileController',
+                templateUrl: 'views/profile/profile.html'
             })
 });
 

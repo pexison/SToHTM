@@ -482,7 +482,7 @@ legend{
 
 .banner {
     margin: auto;
-    text-align: center;  
+    text-align: center;
 }
 
 .banner img {
@@ -498,4 +498,8 @@ legend{
 #sidebar-wrapper {
     margin-top: -121px;
     background: #1F0E2A;;
+}
+
+.user-profile {
+  color: Black;
 }
