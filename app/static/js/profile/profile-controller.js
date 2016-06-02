@@ -1,17 +1,17 @@
 //Controlador del perfil de usuario
 stohtModule.controller('profileController',
-   ['$scope', '$location', '$route', 'flash', 'loginService',
-    function ($scope, $location, $route, flash, loginService) {
+   ['$scope', '$location', '$route', 'flash', 'loginService', 'profileService',
+    function ($scope, $location, $route, flash, loginService, profileService) {
 
       loginService.check({'securityLvl': 2}).then(function (object) {
                 if (object.data['redirect'] == undefined) {
                     $scope.actorName = object.data['actorName'];
                     $scope.actorRol = object.data['actorRol'];
+                    $scope.actorId = object.data['actorId'];
                 } else {
                     $location.path(object.data['redirect']);
                 }
             });
-        $scope.msg = "";
 
         $scope.logout = function() {
             loginService.logout().then(function(object){
@@ -20,6 +20,8 @@ stohtModule.controller('profileController',
 
         };
 
+        // TODO: Uncomment
+        //$scope.profile = profileService.getProfile($scope.actorId);
 
         $scope.profile = { email: "person@mnokey.query",
                            gender: "masculino",
@@ -41,18 +43,18 @@ stohtModule.controller('profileController',
 
 //Controlador del perfil de usuario
 stohtModule.controller('editProfileController',
-   ['$scope', '$location', '$route', 'flash', 'loginService',
-    function ($scope, $location, $route, flash, loginService) {
+   ['$scope', '$location', '$route', 'flash', 'loginService', 'profileService',
+    function ($scope, $location, $route, flash, loginService, profileService) {
 
       loginService.check({'securityLvl': 2}).then(function (object) {
                 if (object.data['redirect'] == undefined) {
                     $scope.actorName = object.data['actorName'];
                     $scope.actorRol = object.data['actorRol'];
+                    $scope.actorId = object.data['actorId'];
                 } else {
                     $location.path(object.data['redirect']);
                 }
             });
-        $scope.msg = "";
 
         $scope.logout = function() {
             loginService.logout().then(function(object){
@@ -61,6 +63,8 @@ stohtModule.controller('editProfileController',
 
         };
 
+        // TODO: Uncomment
+        //$scope.profile = profileService.getProfile($scope.actorId);
 
         $scope.profile = { email: "person@mnokey.query",
                            gender: "masculino",
@@ -77,6 +81,12 @@ stohtModule.controller('editProfileController',
                            scholarships: "Ninguna",
                            abilities: "Ninguna"
                          }
+
+        $scope.sendForm = function() {
+          // TODO send $scope.profile
+          // TODO: Uncomment
+          //profileService.editProfile($scope.profile);
+        }
 
         }]);
 
