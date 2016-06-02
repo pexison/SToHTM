@@ -515,6 +515,11 @@ legend{
   margin-right: 0;
 }
 
+.user-profile input,
+.user-profile textarea {
+  max-width: 600px;
+}
+
 .user-profile-category div {
   padding-bottom: 10px;
 }

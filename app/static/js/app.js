@@ -22,6 +22,9 @@ stohtModule.config(function ($routeProvider) {
             }).when('/profile', {
                 controller: 'profileController',
                 templateUrl: 'views/profile/showProfile.html'
+            }).when('/editProfile', {
+                controller: 'editProfileController',
+                templateUrl: 'views/profile/editProfile.html'
             })
 });
 

@@ -1,0 +1,104 @@
+<div ng-include src="'views/navbar.html'"></div>
+<div class="container">
+    <div class="banner">
+        <img src="src/banner.png">
+    </div>
+
+    <div id="template-wrapper">
+        <div id="wrapper">
+          <div id="sidebar-wrapper">
+              <ul class="sidebar-nav">
+                  <li class="sidebar-brand">
+                      <a href="">
+                          Bienvenido
+                      </a>
+                  </li>
+                  <li>
+                      <a href="#profile">Mostrar perfil</a>
+                  </li>
+                  <li>
+                      <a href="#userList" ng-if="actorRol === 1">Usuarios</a>
+                      <a ng-click="logout()">Salir</a>
+                  </li>
+              </ul>
+          </div>
+        </div>
+        <div class="cuerpo template-container">
+
+          <form action="" class="user-profile">
+
+          <label> Correo</label>
+          <br>{{profile.email}}
+          <br>
+
+            <label for="sexRadio">Sexo</label><br>
+
+            <div class="">
+              <input type="radio" name="sexRadio" value="M"> Masculino
+              <input type="radio" name="sexRadio" value="F"> Femenino
+            </div>
+
+            <div class="form-group">
+              <label for="ageInput">Edad</label>
+              <input type="number" class="form-control" id="ageInput">
+            </div>
+
+            <div class="form-group">
+              <label for="visionInput">Vision</label>
+              <textarea class="form-control" id="visionInput" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="abilitiesInput">Habilidades</label>
+              <textarea class="form-control" id="abilitiesInput" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="skillsInput">Destrezas</label>
+              <textarea class="form-control" id="skillsInput" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="formationInput">Formación</label>
+              <textarea class="form-control" id="formation" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="experienceInput">Experiencia</label>
+              <textarea class="form-control" id="experienceInput" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="cursesInput">Cursos</label>
+              <textarea class="form-control" id="cursesInput" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="workshopsInput">Talleres</label>
+              <textarea class="form-control" id="workshopsInput" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="seminarsInput">Seminarios</label>
+              <textarea class="form-control" id="seminarsInput" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="papersInput">Ponencias</label>
+              <textarea class="form-control" id="papersInput" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="publicationsInput">Publicaciones</label>
+              <textarea class="form-control" id="publicationsInput" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="scholarshipsInput">Becas</label>
+              <textarea class="form-control" id="scholarshipsInput" rows="3"></textarea>
+            </div>
+
+          </form>
+        </div>
+    </div>
+</div>
