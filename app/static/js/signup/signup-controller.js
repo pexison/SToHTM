@@ -3,6 +3,7 @@ stohtModule.controller('signupController',
    ['$scope', '$location', '$route', 'flash', 'signupService','loginService',
     function ($scope, $location, $route, flash, signupService, loginService) {
         loginService.check({'securityLvl': 0}).then(function (object) {
+            $scope.view="signup";
                 if (object.data['redirect'] == undefined) {
                     $scope.actorName = object.data['actorName'];
                     $scope.actorRol = object.data['actorRol'];
@@ -18,7 +19,7 @@ stohtModule.controller('signupController',
                 signupService.signup({
                     email: $scope.email,
                     password: $scope.password,
-                    rol: 2,
+                    rol: 6,
                     fullName: $scope.fullName
                 }).then(function (object) {
                     if (object.data['error'] != undefined) {
