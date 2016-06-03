@@ -6,6 +6,8 @@ from app.utility.encoder import toMd5
 
 user = Blueprint('user', __name__,)
 
+USER_ROLES = {'admin': 1, 'operator': 2, 'client':4, 'director': 8, 'manager':16, 'budget':32}
+
 @user.route('/user/create', methods=['POST'])
 def create_user():
     email = request.args.get('email')
@@ -39,7 +41,19 @@ def get_user():
     id = request.args.get('id')
     UserInstance = User()
     result = UserInstance.getUserById(int(id))[0]
-    return json.dumps({'id': result.userId, 'rol': result.rol, 'email': result.email, 'fullName': result.fullname})
+    res = { 'id': result.userId,
+            'rol': result.rol ,
+            'email': result.email,
+            'fullName': result.fullname,
+            'admin': result.rol & USER_ROLES['admin'],
+            'operator': result.rol & USER_ROLES['operator'],
+            'client': result.rol & USER_ROLES['client'],
+            'director': result.rol & USER_ROLES['director'],
+            'manager': result.rol & USER_ROLES['manager'],
+            'budget': result.rol & USER_ROLES['budget']
+            }
+
+    return json.dumps(res)
 
 
 @user.route('/users', methods=['GET'])
