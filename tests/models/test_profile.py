@@ -1,5 +1,6 @@
 import unittest
 from copy import deepcopy
+from nose_parameterized import parameterized
 
 from app.models.db import db
 from app.models.user import User
@@ -22,6 +23,22 @@ template = dict(
     becas="Algunas becas",
 )
 
+def load_test_cases():
+    result = []
+
+    for key in iter(template):
+
+        # Test None
+        data = deepcopy(template)
+        data[key] = None
+        result.append(("Without" + key.capitalize(), data))
+
+        # Test Empty
+        data = deepcopy(template)
+        data[key] = ""
+        result.append(("WithEmpty" + key.capitalize(), data))
+
+    return result
 
 # Placeholder Test case to make a model test file
 class TestProfileModel(unittest.TestCase):
@@ -32,6 +49,13 @@ class TestProfileModel(unittest.TestCase):
 
     def tearDown(self):
         db.drop_all()
+
+    # PARAMETERIZED TESTS
+
+    @parameterized.expand(load_test_cases)
+    def test_createProfile(self, _, data):
+        profileCreated = self.Profile.createProfile(**data)
+        self.assertEqual(profileCreated['status'], 'success')
 
     # CORE TESTS
 
@@ -50,7 +74,7 @@ class TestProfileModel(unittest.TestCase):
         profileCreated = self.Profile.createProfile(**data)
         self.assertEqual(profileCreated['status'], 'success')  # TODO SHOULD FAIL
 
-    def test_createUserWithEmptyEmail(self):
+    def test_createProfileWithEmptyEmail(self):
         data = deepcopy(template)
         data['email'] = ""
 

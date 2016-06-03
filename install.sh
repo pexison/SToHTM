@@ -13,3 +13,4 @@ pip3 install flask-babel
 pip3 install flup
 pip3 install Flask-Migrate
 pip3 install selenium
+pip3 install nose-parameterized
