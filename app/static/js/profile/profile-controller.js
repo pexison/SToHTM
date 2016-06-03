@@ -2,12 +2,16 @@
 stohtModule.controller('profileController',
    ['$scope', '$location', '$route', 'flash', 'loginService', 'profileService',
     function ($scope, $location, $route, flash, loginService, profileService) {
-
+        $scope.view = "profile";
       loginService.check({'securityLvl': 2}).then(function (object) {
             if (object.data['redirect'] == undefined) {
                 $scope.actorName = object.data['actorName'];
                 $scope.actorRol = object.data['actorRol'];
                 $scope.actorEmail = object.data['actorEmail'];
+
+                $scope.isAdmin= ($scope.actorRol & 1) !== 0;
+                $scope.isOperator= ($scope.actorRol & 2) !== 0;
+                $scope.isClient = ($scope.actorRol & 3) !==0;
 
                 profileService.getProfile({email: $scope.actorEmail})
                   .then(function(response) {
@@ -31,12 +35,16 @@ stohtModule.controller('profileController',
 stohtModule.controller('editProfileController',
    ['$scope', '$location', '$route', 'flash', 'loginService', 'profileService',
     function ($scope, $location, $route, flash, loginService, profileService) {
-
+        $scope.view = "editProfile";
       loginService.check({'securityLvl': 2}).then(function (object) {
             if (object.data['redirect'] == undefined) {
                 $scope.actorName = object.data['actorName'];
                 $scope.actorRol = object.data['actorRol'];
                 $scope.actorEmail = object.data['actorEmail'];
+
+                $scope.isAdmin= ($scope.actorRol & 1) !== 0;
+                $scope.isOperator= ($scope.actorRol & 2) !== 0;
+                $scope.isClient = ($scope.actorRol & 3) !==0;
 
                 profileService.getProfile({email: $scope.actorEmail})
                   .then(function(response) {
