@@ -1,6 +1,7 @@
 stohtModule.controller('loginController',
    ['$scope', '$location', '$route', 'flash', 'loginService',
     function ($scope, $location, $route, flash, loginService) {
+        $scope.view = "login";
         loginService.check({'securityLvl': 0}).then(function (object) {
                 if (object.data['redirect'] == undefined) {
                     $scope.actorName = object.data['actorName'];
@@ -20,12 +21,8 @@ stohtModule.controller('loginController',
             }else{
                 if (object.data['status'] != 'failure'){
                     $scope.rol = object.data['rol'];
-                    if ($scope.rol == 1){
-                        $location.path('/admin');
-                    }else{
-                        if ($scope.rol == 2){
-                        $location.path('/user');
-                        }
+                    if (($scope.rol & 63) != 0){
+                        $location.path('/home');
                     }
                 }else{
                    $scope.msg = object.data['reason'];
