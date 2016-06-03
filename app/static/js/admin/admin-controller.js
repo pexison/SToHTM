@@ -25,10 +25,21 @@ stohtModule.controller('adminController',
 stohtModule.controller('editUserController',
    ['$scope', '$location', '$route', 'flash', 'adminService','loginService',
     function ($scope, $location, $route, flash, adminService, loginService) {
+        $scope.view = "editUser";
+        $scope.admin=0;
+        $scope.operator=0;
+        $scope.client=0;
+        $scope.director=0;
+        $scope.manager=0;
+        $scope.budget=0;
         loginService.check({'securityLvl': 1}).then(function (object) {
                 if (object.data['redirect'] == undefined) {
                     $scope.actorName = object.data['actorName'];
                     $scope.actorRol = object.data['actorRol'];
+
+                    $scope.isAdmin= ($scope.actorRol & 1) !== 0;
+                    $scope.isOperator= ($scope.actorRol & 2) !== 0;
+                    $scope.isClient = ($scope.actorRol & 3) !==0;
                 } else {
                     $location.path(object.data['redirect']);
                 }
@@ -39,7 +50,6 @@ stohtModule.controller('editUserController',
         $scope.saveButton = "Actualizar";
 
         $scope.id=$location.search()['user'];
-        $scope.roles=[{name:"Administrador", value:1},{name:"Usuario",value:2}];
 
         //Obtener datos de usuario
         adminService.getUser({id: $scope.id}).then(function (object) {
@@ -52,7 +62,12 @@ stohtModule.controller('editUserController',
                 $scope.password="";
                 $scope.passwordr="";
                 $scope.fullName=object.data['fullName'];
-                $scope.chosenRole=$scope.roles[(object.data['rol'])-1];
+                $scope.admin=object.data['admin'];
+                $scope.operator=object.data['operator'];
+                $scope.client=object.data['client'];
+                $scope.director=object.data['director'];
+                $scope.manager=object.data['manager'];
+                $scope.budget=object.data['budget'];
             }
           });
 
@@ -63,7 +78,7 @@ stohtModule.controller('editUserController',
                 adminService.updateUser({
                     email: $scope.email,
                     password: $scope.password,
-                    rol: $scope.chosenRole.value,
+                    rol: $scope.admin + $scope.operator + $scope.client + $scope.director + $scope.manager + $scope.budget,
                     fullName: $scope.fullName
                 }).then(function (object) {
                     if (object.data['error'] != undefined) {
@@ -93,10 +108,22 @@ stohtModule.controller('editUserController',
 stohtModule.controller('userListController',
    ['$scope', '$location', '$route', 'flash', 'adminService','loginService',
     function ($scope, $location, $route, flash, adminService, loginService) {
+        $scope.view= "userList";
+        $scope.admin=0;
+        $scope.operator=2;
+        $scope.client=4;
+        $scope.director=0;
+        $scope.manager=0;
+        $scope.budget=0;
+
         loginService.check({'securityLvl': 1}).then(function (object) {
                 if (object.data['redirect'] == undefined) {
                     $scope.actorName = object.data['actorName'];
                     $scope.actorRol = object.data['actorRol'];
+
+                    $scope.isAdmin= ($scope.actorRol & 1) !== 0;
+                    $scope.isOperator= ($scope.actorRol & 2) !== 0;
+                    $scope.isClient = ($scope.actorRol & 3) !==0;
                 } else {
                     $location.path(object.data['redirect']);
                 }
@@ -107,8 +134,6 @@ stohtModule.controller('userListController',
         $scope.saveButton = "Crear";
 
         $location.search({});
-        $scope.roles=[{name:"Administrador", value:1},{name:"Usuario",value:2}];
-        $scope.chosenRole=$scope.roles[1];
 
         //Ver usuario
         $scope.viewUser = function(id) {
@@ -128,7 +153,8 @@ stohtModule.controller('userListController',
         //Crear usuario
         $scope.save = function() {
             if ($scope.password == $scope.passwordr){
-                adminService.createUser({email: $scope.email, password: $scope.password, rol:$scope.chosenRole.value, fullName: $scope.fullName}).then(function (object) {
+                $scope.rol = $scope.admin + $scope.operator + $scope.client + $scope.director + $scope.manager + $scope.budget;
+                adminService.createUser({email: $scope.email, password: $scope.password, rol:$scope.rol, fullName: $scope.fullName}).then(function (object) {
                 if (object.data['error'] != undefined) {
                         $scope.msg = object.data['error'];
                     } else {
