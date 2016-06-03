@@ -6,25 +6,27 @@ from app.utility.encoder import toMd5
 
 auth = Blueprint('auth', __name__,)
 
+USER_ROLES = {'admin': 1, 'operator': 2, 'client':4, 'director': 8, 'manager':16, 'budget':32}
 
 @auth.route('/user/check', methods=['GET'])
 def check_session():
     permissions = {0: '/',
-                   1: '/admin',
-                   2: '/user'}
+                   1: '/home'}
     securityLvl = int(request.args.get('securityLvl'))
     if "rol" in session:
-        if session["rol"] == securityLvl:
+        print(session["rol"] & securityLvl)
+        if (session["rol"] & securityLvl) != 0:
             res = {'actorName': session['name'],
                    'actorRol': session['rol'],
                    'actorId': session['userId'],
-                   'actorEmail': session['email']}
+                   'actorEmail': session['email'],
+                   }
         else:
             res = {'actorName': session['name'],
                    'actorRol': session['rol'],
                    'actorId': session['userId'],
                    'actorEmail': session['email'],
-                   'redirect': permissions[session['rol']]}
+                   'redirect': permissions[1]}
     else:
         if securityLvl == 0:
             res = {'actorName': 'Usuario no registrado', 'actorRol': 0}
