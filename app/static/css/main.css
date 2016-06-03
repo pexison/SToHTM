@@ -490,13 +490,13 @@ legend{
 }
 
 .banner {
-    margin: auto;
+
     text-align: center;
 }
 
 .banner img {
     width: 100%;
-    margin-top: 0.6em;
+    margin-top: 50px;
 }
 
 .logo {
