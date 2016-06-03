@@ -6,25 +6,22 @@ stohtModule.config(function ($routeProvider) {
                 templateUrl: 'views/login/login.html'
             }).when('/signup', {
                 controller: 'signupController',
-                templateUrl: 'views/signup/signup.html'
-            }).when('/admin', {
-                controller: 'adminController',
-                templateUrl: 'views/home.html'
+                templateUrl: 'views/login/login.html'
             }).when('/userList', {
                 controller: 'userListController',
-                templateUrl: 'views/admin/userList.html'
+                templateUrl: 'views/app/editUser.html'
             }).when('/editUser', {
                 controller: 'editUserController',
-                templateUrl: 'views/admin/editUser.html'
-            }).when('/user', {
+                templateUrl: 'views/app/editUser.html'
+            }).when('/home', {
                 controller: 'userController',
-                templateUrl: 'views/home.html'
+                templateUrl: 'views/app/home.html'
             }).when('/profile', {
                 controller: 'profileController',
-                templateUrl: 'views/profile/showProfile.html'
+                templateUrl: 'views/app/profile.html'
             }).when('/editProfile', {
                 controller: 'editProfileController',
-                templateUrl: 'views/profile/editProfile.html'
+                templateUrl: 'views/app/profile.html'
             })
 });
 
