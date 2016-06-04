@@ -2,16 +2,17 @@
     <div id="wrapper">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <a href="">
-                        Bienvenido
-                    </a>
+                <li  class="  {{view == 'home' ? 'sidebar-selected':' '}}">
+                    <a href="#home">Inicio</a>
                 </li>
-                <li>
-                    <a href="#profile" ng-if="isOperator && (view !=='profile')">Ver perfil</a>
-                    <a href="#editProfile" ng-if="isOperator && (view !=='editProfile')">Editar perfil</a>
-                    <a href="#userList" ng-if="isAdmin &&(view !=='userList')">Usuarios</a>
-                    <a ng-click="logout()">Salir</a>
+                <li class="{{view == 'profile' ? 'sidebar-selected':' '}}">
+                    <a href="#profile" ng-if="isOperator">Ver perfil</a>
+                </li>
+                <li class="{{view == 'editProfile' ? 'sidebar-selected':' '}}">
+                    <a href="#editProfile" ng-if="isOperator">Editar perfil</a>
+                </li>
+                <li class= "{{view == 'userList' ? 'sidebar-selected':' '}}">
+                    <a href="#userList" ng-if="isAdmin">Usuarios</a>
                 </li>
             </ul>
         </div>
@@ -19,6 +20,8 @@
             </div>
     </div>
 </div>
+<!--
 <div class="banner template-container">
     <img src="src/banner.png">
 </div>
+-->
