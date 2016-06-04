@@ -2,6 +2,7 @@
 stohtModule.controller('userController',
    ['$scope', '$location', '$route', 'flash', 'userService', 'loginService',
     function ($scope, $location, $route, flash, adminService, loginService) {
+        $scope.view = "home";
         loginService.check({'securityLvl': 63}).then(function (object) {
                 if (object.data['redirect'] == undefined) {
                     $scope.actorName = object.data['actorName'];
@@ -13,7 +14,7 @@ stohtModule.controller('userController',
                     $location.path(object.data['redirect']);
                 }
             });
-        
+
         $scope.msg = "";
 
         $scope.logout = function() {
