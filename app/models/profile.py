@@ -9,51 +9,51 @@ class Profile(db.Model):
     '''Clase que define el modelo Usuario'''
 
     __tablename__ = 'profile'
-    perfilId    = db.Column(db.Integer, primary_key=True, index=True)
-    email       = db.Column(db.String(30), db.ForeignKey('user.email'))
-    sexo        = db.Column(db.String(20))
-    edad        = db.Column(db.Integer)
-    vision      = db.Column(db.String(300))
-    habilidades = db.Column(db.String(300))
-    destrezas   = db.Column(db.String(300))
-    formacion   = db.Column(db.String(30))
-    experiencia = db.Column(db.String(300))
-    cursos      = db.Column(db.String(300))
-    talleres    = db.Column(db.String(300))
-    seminarios  = db.Column(db.String(300))
-    ponencias   = db.Column(db.String(300))
-    publicaciones = db.Column(db.String(300))
-    becas      = db.Column(db.String(300))
+    perfilId        = db.Column(db.Integer, primary_key=True, index=True)
+    email           = db.Column(db.String(30), db.ForeignKey('user.email'))
+    gender          = db.Column(db.String(20))
+    age             = db.Column(db.Integer)
+    vision          = db.Column(db.String(300))
+    abilities       = db.Column(db.String(300))
+    skills          = db.Column(db.String(300))
+    formation       = db.Column(db.String(30))
+    experience      = db.Column(db.String(300))
+    curses          = db.Column(db.String(300))
+    workshops       = db.Column(db.String(300))
+    seminars        = db.Column(db.String(300))
+    papers          = db.Column(db.String(300))
+    publications    = db.Column(db.String(300))
+    scolarships     = db.Column(db.String(300))
 
 
-    def __init__(self, email=None, sexo=None, edad=None, vision=None,
-                habilidades=None, destrezas=None, formacion=None,
-                experiencia=None, cursos=None, talleres=None,
-                seminarios=None, ponencias=None, publicaciones=None,
-                becas=None):
+    def __init__(self, email=None, gender=None, age=None, vision=None,
+                abilities=None, skills=None, formation=None,
+                experience=None, curses=None, workshops=None,
+                seminars=None, papers=None, publications=None,
+                scolarships=None):
 
         '''Constructor del modelo usuario'''
         self.email          = email
-        self.sexo           = sexo
-        self.edad           = edad
+        self.gender         = gender
+        self.age            = age
         self.vision         = vision
-        self.habilidades    = habilidades
-        self.destrezas      = destrezas
-        self.formacion      = formacion
-        self.experiencia    = experiencia
-        self.cursos         = cursos
-        self.talleres       = talleres
-        self.seminarios     = seminarios
-        self.ponencias      = ponencias
-        self.publicaciones  = publicaciones
-        self.becas          = becas
+        self.abilities      = abilities
+        self.skills         = skills
+        self.formation      = formation
+        self.experience     = experience
+        self.curses         = curses
+        self.workshops      = workshops
+        self.seminars       = seminars
+        self.papers         = papers
+        self.publications   = publications
+        self.scolarships    = scolarships
 
 
     def __repr__(self):
         '''Representacion en string del modelo Perfil'''
         return \
-            '< email %r, sexo %r, edad %r (incompleto)>' % (
-                self.email, self.sexo, self.edad)
+            '< email %r, gender %r, age %r (incompleto)>' % (
+                self.email, self.gender, self.age)
 
     def getProfileById(self, id):
         '''Permite buscar un usuario por su id'''
@@ -64,27 +64,27 @@ class Profile(db.Model):
             profile = self.query.filter_by(perfilId=id).all()
             return profile
 
-    def createProfile(self, email, sexo, edad, vision, habilidades,
-        destrezas, formacion, experiencia, cursos, talleres,
-        seminarios, ponencias, publicaciones, becas):
+    def createProfile(self, email, gender, age, vision, abilities,
+        skills, formation, experience, curses, workshops,
+        seminars, papers, publications, scolarships):
 
         '''Permite crearle un perfil a un usuario'''
 
         # None checks
-        email          = email or ""
-        sexo           = sexo or ""
-        edad           = edad or ""
-        vision         = vision or ""
-        habilidades    = habilidades or ""
-        destrezas      = destrezas or ""
-        formacion      = formacion or ""
-        experiencia    = experiencia or ""
-        cursos         = cursos or ""
-        talleres       = talleres or ""
-        seminarios     = seminarios or ""
-        ponencias      = ponencias or ""
-        publicaciones  = publicaciones or ""
-        becas          = becas or ""
+        email           = email or ""
+        gender          = gender or ""
+        age             = age or ""
+        vision          = vision or ""
+        abilities       = abilities or ""
+        skills          = skills or ""
+        formation       = formation or ""
+        experience      = experience or ""
+        curses          = curses or ""
+        workshops       = workshops or ""
+        seminars        = seminars or ""
+        papers          = papers or ""
+        publications    = publications or ""
+        scolarships     = scolarships or ""
 
         u = User()
         findUser = u.getUserByEmail(email)
@@ -94,9 +94,9 @@ class Profile(db.Model):
         if findProfile == None:
 
             if findUser != []:
-                newProfile = Profile(email,sexo,edad,vision,habilidades,destrezas,
-                    formacion,experiencia,cursos,talleres,seminarios,ponencias,
-                    publicaciones,becas)
+                newProfile = Profile(email,gender,age,vision,abilities,skills,
+                    formation,experience,curses,workshops,seminars,papers,
+                    publications,scolarships)
                 db.session.add(newProfile)
                 db.session.commit()
                 return {'status': 'success', 'reason': 'Profile created'}
@@ -125,26 +125,26 @@ class Profile(db.Model):
 
         return profile
 
-    def updateProfile(self, email=None, sexo=None, edad=None, vision=None, habilidades=None,
-        destrezas=None, formacion=None, experiencia=None, cursos=None, talleres=None,
-        seminarios=None, ponencias=None, publicaciones=None, becas=None):
+    def updateProfile(self, email=None, gender=None, age=None, vision=None, abilities=None,
+        skills=None, formation=None, experience=None, curses=None, workshops=None,
+        seminars=None, papers=None, publications=None, scolarships=None):
         '''Permite actualizar el perfil de un usuario'''
 
         # None checks
-        email          = email or ""
-        sexo           = sexo or ""
-        edad           = edad or ""
-        vision         = vision or ""
-        habilidades    = habilidades or ""
-        destrezas      = destrezas or ""
-        formacion      = formacion or ""
-        experiencia    = experiencia or ""
-        cursos         = cursos or ""
-        talleres       = talleres or ""
-        seminarios     = seminarios or ""
-        ponencias      = ponencias or ""
-        publicaciones  = publicaciones or ""
-        becas          = becas or ""
+        email           = email or ""
+        gender          = gender or ""
+        age             = age or ""
+        vision          = vision or ""
+        abilities       = abilities or ""
+        skills          = skills or ""
+        formation       = formation or ""
+        experience      = experience or ""
+        curses          = curses or ""
+        workshops       = workshops or ""
+        seminars        = seminars or ""
+        papers          = papers or ""
+        publications    = publications or ""
+        scolarships     = scolarships or ""
 
         u = User()
         findUser = u.getUserByEmail(email)
@@ -155,32 +155,32 @@ class Profile(db.Model):
 
             if findProfile != None:
 
-                if sexo != "":
-                    findProfile.sexo = sexo
-                if edad != "":
-                    findProfile.edad = edad
+                if gender != "":
+                    findProfile.gender = gender
+                if age != "":
+                    findProfile.age = age
                 if vision != "":
                     findProfile.vision = vision
-                if habilidades != "":
-                    findProfile.habilidades = habilidades
-                if destrezas != "":
-                    findProfile.destrezas = destrezas
-                if formacion != "":
-                    findProfile.formacion = formacion
-                if experiencia != "":
-                    findProfile.experiencia = experiencia
-                if cursos != "":
-                    findProfile.cursos = cursos
-                if talleres != "":
-                    findProfile.talleres = talleres
-                if seminarios != "":
-                    findProfile.seminarios = seminarios
-                if ponencias != "":
-                    findProfile.ponencias = ponencias
-                if publicaciones !="":
-                    findProfile.publicaciones = publicaciones
-                if becas != "":
-                    findProfile.becas = becas
+                if abilities != "":
+                    findProfile.abilities = abilities
+                if skills != "":
+                    findProfile.skills = skills
+                if formation != "":
+                    findProfile.formation = formation
+                if experience != "":
+                    findProfile.experience = experience
+                if curses != "":
+                    findProfile.curses = curses
+                if workshops != "":
+                    findProfile.workshops = workshops
+                if seminars != "":
+                    findProfile.seminars = seminars
+                if papers != "":
+                    findProfile.papers = papers
+                if publications !="":
+                    findProfile.publications = publications
+                if scolarships != "":
+                    findProfile.scolarships = scolarships
 
                 db.session.commit()
 
