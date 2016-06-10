@@ -71,19 +71,19 @@ def get_user_profile():
         profile = ProfileInstance.getProfileByEmail(email)
         # Must send "English" object...
         result = {'email': profile.email,
-                  'gender': profile.sexo,
-                  'age': profile.edad,
+                  'gender': profile.gender,
+                  'age': profile.age,
                   'vision': profile.vision,
-                  'abilities': profile.habilidades,
-                  'skills': profile.destrezas,
-                  'formation': profile.formacion,
-                  'experience': profile.experiencia,
-                  'courses': profile.cursos,
-                  'workshops': profile.talleres,
-                  'seminars': profile.seminarios,
-                  'papers': profile.ponencias,
-                  'publications': profile.publicaciones,
-                  'scholarships': profile.becas}
+                  'abilities': profile.abilities,
+                  'skills': profile.skills,
+                  'formation': profile.formation,
+                  'experience': profile.experience,
+                  'courses': profile.courses,
+                  'workshops': profile.workshops,
+                  'seminars': profile.seminars,
+                  'papers': profile.papers,
+                  'publications': profile.publications,
+                  'scholarships': profile.scholarships}
 
     # trick to easily convert the class to something json serializable
     # we get the  __dict__ an remove the unserializable
