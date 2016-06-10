@@ -20,7 +20,7 @@ template = dict(
     seminars="Algunso seminarions",
     papers="Algunas ponencias",
     publications="Algunas publicaciones",
-    scolarships="Algunas becas",
+    scholarships="Algunas becas",
 )
 
 def load_test_cases():
