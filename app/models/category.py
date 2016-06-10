@@ -12,6 +12,7 @@ class Category(db.Model):
     isSubCategory = db.Column(db.Boolean, default=False)
     parentCategory = db.Column(db.Integer)
 
+
     def __init__(self, name=None, isSubCategory=None, parentCategory=None):
         '''Constructor del modelo usuario'''
         self.name = name
@@ -43,8 +44,8 @@ class Category(db.Model):
         if result != []:
             return result
         else:
-            return {'status': 'failure',
-                    'reason': 'There are not categories or subcategories'}
+            return {'status': 'failure', 'reason': 'There are not categories or subcateories'}
+
 
     def getCategories(self):
         '''Permite obtener todas las categorias PADRES'''
@@ -52,6 +53,8 @@ class Category(db.Model):
         category = self.query.filter_by(isSubCategory=False).all()
 
         return category
+
+
 
 
     def getSubCategories(self, id):
@@ -66,8 +69,9 @@ class Category(db.Model):
             return category
 
 
-        return {'status': 'failure',
-                'reason': 'Category parent does not exist'}
+        return {'status': 'failure', 'reason': 'Category parent does not exist'}
+
+
 
     def getCategoryByName(self, name):
         '''Permite buscar una categoria por nombre'''
@@ -81,10 +85,10 @@ class Category(db.Model):
 
         return cat
 
+
     def createCategory(self, name, isSubCategory, parentCategory):
         '''Permite insertar una categoria'''
 
-        print(name, isSubCategory, parentCategory)
         # None checks
         name = name or ""
         isSubCategory = isSubCategory or False
@@ -101,12 +105,12 @@ class Category(db.Model):
                 db.session.commit()
                 return {'status': 'success', 'reason': 'Category Created'}
 
-            else:
-                return {'status': 'failure',
-                        'reason': 'Parent category not found'}
+                else:
+                    return {'status': 'failure', 'reason': 'Parent category not found'}
 
-        return {'status': 'failure',
-                'reason': 'The category is already created'}
+
+        return {'status': 'failure', 'reason': 'The category is already created'}
+
 
     def deleteCategory(self, id):
         '''Permite eliminar una categoria'''
@@ -121,8 +125,8 @@ class Category(db.Model):
 
         return {'status': 'failure', 'reason': 'Couldnt find Category :('}
 
-    def updateCategory(self, categoryId, name=None, isSubCategory=None,
-                       parentCategory=None):
+
+    def updateCategory(self, categoryId, name=None, isSubCategory=None, parentCategory=None):
         '''Permite actualizar una categoria'''
 
         # None checks
@@ -132,9 +136,10 @@ class Category(db.Model):
 
         if findCategory != []:
 
-            # Si el name no es none
+            #Si el name no es none
             if name != "":
                 findCategory.name = name
+
             if isSubCategory != None:
                 findParent = self.getCategoryById(parentCategory)
                 if findParent != []:
@@ -144,8 +149,7 @@ class Category(db.Model):
                     return {'status': 'success', 'reason': 'Category updated'}
 
                 else:
-                    return {'status': 'failure',
-                            'reason': 'Parent category not found'}
+                    return {'status': 'failure', 'reason': 'Parent category not found'}
 
             else:
                 findCategory.parentCategory = 0
@@ -154,5 +158,4 @@ class Category(db.Model):
                 return {'status': 'success', 'reason': 'Category updated'}
 
         else:
-            return {'status': 'failure',
-                    'reason': 'Category does not exist, Use create instead'}
+            return {'status': 'failure', 'reason': 'Category does not exist, Use create instead'}
