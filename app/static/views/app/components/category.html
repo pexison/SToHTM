@@ -2,22 +2,28 @@
     <div class="pad form-adduser">
 
             <div class="row">
-                <div align="right" class="col-sm-6">
-                <div class="glyphicon glyphicon-remove-sign clickable-button" ng-click="delete(category.id)" div></div>
-            </div>
                 <div class="col-sm-12">
                 <ol class="breadcrumb">
-                  <li ng-repeat="crumb in crumbs" class="clickable-button" ng-click="viewCategory(crumb.id)"><a>{{crumb.name}}</a></li>
+                  <li ng-repeat="crumb in crumbs" class="clickable-button" ng-click="viewCategory(crumb)"><a>{{crumb.name}}</a></li>
                 </ol>
+                </div>
+                <div class="col-sm-12">
+                    <h2>{{$parent.category.name}}</h2>
                 </div>
             </div>
             <div class="row user-profile-category">
               <div class="col-xs-6 text-bold">
-                Categoria:
+                Nombre:
               </div>
               <div class="col-xs-6">
-                {{category.name}}
+                  <input id="categoryName" ng-model="$parent.category.name" type="text" class="form-control repeat-pass first-input last-input" placeholder="Categoria">
               </div>
+            </div>
+            <div class="row user-profile-category">
+              <div class="col-xs-12 text-bold">
+                <button id="updateButton" class="btn btn-lg btn-primary btn-block" ng-click="update()" type="button">Actualizar</button>
+              </div>
+
             </div>
             <div class="row user-profile-category">
               <div class="col-xs-6 text-bold">
@@ -26,19 +32,32 @@
               <div class="col-xs-6">
               </div>
             </div>
-            <div class="row user-profile-category" ng-repeat="subcategory in categories">
-                <div class="col-xs-6">
-              </div>
-                <div class=" col-xs-6 clickable-button"  ng-click="viewCategory(category.id)">
-                    {{subcategory.name}}
-                </div>
+            <div class="row user-profile-category" >
+            <div class="col-xs-12">
+                <center>
+                <table>
+                <tr ng-repeat="subcategory in categories">
+                    <td class ="clickable-button" ng-click="viewCategory(subcategory)">
+                        {{subcategory.name}}</td>
+                    <td>
+                        <center><div class="glyphicon glyphicon-remove-sign clickable-button" ng-click="deletesub(subcategory.id)" div></div></center>
+                    </td>
+                </tr>
+                </table>
+                </center>
             </div>
+
+            </div>
+
+
+
+
             <div class="row">
                 <div class="col-sm-8">
-                   <input id="name" ng-model="$parent.name" type="text" class="form-control repeat-pass first-input last-input" placeholder="Subcategoria">
+                   <input id="name" ng-model="$parent.subname" type="text" class="form-control repeat-pass first-input last-input" placeholder="Subcategoria">
                 </div>
                 <div class="col-sm-4">
-                   <button id="saveButton" class="btn btn-lg btn-primary btn-block" ng-click="save()" type="button">Agregar</button>
+                   <button id="saveButton" class="btn btn-lg btn-primary btn-block" ng-click="saveSub()" type="button">Agregar</button>
                 </div>
             </div>
     </div>
