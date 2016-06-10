@@ -25,33 +25,32 @@ def create_category():
 def get_categories():
     CategoryInstance = Category()
     categories = CategoryInstance.getCategories()
-    rescat=[]
+    rescat = []
     for category in categories:
-        rescat.append({'name':category.name,
-                    'id':category.categoryId,
-                       'parent':category.parentCategory,
-                       'isSubCategory':category.isSubCategory})
+        rescat.append({'name': category.name,
+                       'id': category.categoryId,
+                       'parent': category.parentCategory,
+                       'isSubCategory': category.isSubCategory})
     res = {'result': rescat}
 
     return json.dumps(res)
+
 
 @category.route('/categories/children', methods=['GET'])
 def get_children():
     parentCategory = int(request.args.get('parentCategory'))
     CategoryInstance = Category()
     categories = CategoryInstance.getSubCategories(parentCategory)
-    rescat=[]
+    rescat = []
     if categories != []:
         for category in categories:
-            rescat.append({'name':category.name,
-                        'id':category.categoryId,
-                       'parent':category.parentCategory,
-                       'isSubCategory':category.isSubCategory})
+            rescat.append({'name': category.name,
+                           'id': category.categoryId,
+                           'parent': category.parentCategory,
+                           'isSubCategory': category.isSubCategory})
     res = {'result': rescat}
 
     return json.dumps(res)
-
-
 
 
 @category.route('/category', methods=['GET'])
@@ -96,17 +95,18 @@ def update_category():
 
     return json.dumps(res)
 
+
 @category.route('/categories/breadcrumbs', methods=['GET'])
 def get_breadcrumbs():
     category = int(request.args.get('id'))
     CategoryInstance = Category()
-    rescat=[]
+    rescat = []
     while category != 0:
         parent = CategoryInstance.getCategoryById(category)
-        rescat.append({'name':parent.name,
-                    'id':parent.categoryId,
-                       'parent':parent.parentCategory,
-                       'isSubCategory':parent.isSubCategory})
+        rescat.append({'name': parent.name,
+                       'id': parent.categoryId,
+                       'parent': parent.parentCategory,
+                       'isSubCategory': parent.isSubCategory})
         category = parent.parentCategory
     parent = CategoryInstance.getCategoryById(category)
     rescat.append(parent)

@@ -12,7 +12,6 @@ class Category(db.Model):
     isSubCategory = db.Column(db.Boolean, default=False)
     parentCategory = db.Column(db.Integer)
 
-
     def __init__(self, name=None, isSubCategory=None, parentCategory=None):
         '''Constructor del modelo usuario'''
         self.name = name
@@ -46,16 +45,12 @@ class Category(db.Model):
         else:
             return {'status': 'failure', 'reason': 'There are not categories or subcateories'}
 
-
     def getCategories(self):
         '''Permite obtener todas las categorias PADRES'''
 
         category = self.query.filter_by(isSubCategory=False).all()
 
         return category
-
-
-
 
     def getSubCategories(self, id):
         ''' Permite obtener las subcategorias dado un categoryId PADRE'''
@@ -68,10 +63,7 @@ class Category(db.Model):
 
             return category
 
-
         return {'status': 'failure', 'reason': 'Category parent does not exist'}
-
-
 
     def getCategoryByName(self, name):
         '''Permite buscar una categoria por nombre'''
@@ -84,7 +76,6 @@ class Category(db.Model):
             cat = None
 
         return cat
-
 
     def createCategory(self, name, isSubCategory, parentCategory):
         '''Permite insertar una categoria'''
@@ -108,9 +99,7 @@ class Category(db.Model):
             else:
                 return {'status': 'failure', 'reason': 'Parent category not found'}
 
-
         return {'status': 'failure', 'reason': 'The category is already created'}
-
 
     def deleteCategory(self, id):
         '''Permite eliminar una categoria'''
@@ -125,7 +114,6 @@ class Category(db.Model):
 
         return {'status': 'failure', 'reason': 'Couldnt find Category :('}
 
-
     def updateCategory(self, categoryId, name=None, isSubCategory=None, parentCategory=None):
         '''Permite actualizar una categoria'''
 
@@ -136,7 +124,7 @@ class Category(db.Model):
 
         if findCategory != []:
 
-            #Si el name no es none
+            # Si el name no es none
             if name != "":
                 findCategory.name = name
 
