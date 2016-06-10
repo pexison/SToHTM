@@ -1,7 +1,7 @@
 stohtModule.service('categoryService', ['$q', '$http', function($q, $http) {
     this.createCategory = function(args) {
         return  $http({
-          url: "category/create",
+          url: "/categories/create",
           method: 'POST',
           params: args
         });
@@ -9,7 +9,7 @@ stohtModule.service('categoryService', ['$q', '$http', function($q, $http) {
 
     this.deleteCategory = function(args) {
         return  $http({
-          url: "category/delete",
+          url: "/categories/delete",
           method: 'POST',
           params: args
         });
@@ -17,8 +17,8 @@ stohtModule.service('categoryService', ['$q', '$http', function($q, $http) {
 
     this.updateCategory = function(args) {
         return  $http({
-          url: "category/update",
-          method: 'PUT',
+          url: "/categories/update",
+          method: 'POST',
           params: args
         });
     };
@@ -31,13 +31,22 @@ stohtModule.service('categoryService', ['$q', '$http', function($q, $http) {
         });
     };
 
-    this.getCategoriey = function(args) {
+    this.getChildren = function(args) {
         return  $http({
-          url: "category",
+          url: "/categories/children",
           method: 'GET',
           params: args
         });
     };
+
+    this.breadcrumbs = function(args) {
+        return  $http({
+          url: "/categories/breadcrumbs",
+          method: 'GET',
+          params: args
+        });
+    };
+
 
 }]);
 

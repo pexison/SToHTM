@@ -1,7 +1,7 @@
 //controlador de creacion de usuarios y lista de usuarios (administrador)
 stohtModule.controller('categoriesController',
    ['$scope', '$location', '$route', 'flash', 'categoryService','loginService',
-    function ($scope, $location, $route, flash, adminService, loginService) {
+    function ($scope, $location, $route, flash, categoryService, loginService) {
         $scope.view= "categories";
 
         loginService.check({'securityLvl': 16}).then(function (object) {
@@ -18,10 +18,8 @@ stohtModule.controller('categoriesController',
                 }
             });
         $scope.msg = "";
-        $scope.category= {name: "Ejemplo 1"};
-        $scope.categories=[{name:"Subejemplo1",id:1},{name:"Subejemplo2",id:2},{name:"Subejemplo3",id:3}];
-        $scope.crumbs=[{name:"crumb1", id: 1},{name:"crumb2", id: 1},{name:"crumb3", id: 1}];
-        $scope.supercategories=[{name:"super categoria 1",id:1},{name:"super categoria 2",id:2},{name:"super categoria 3",id:3}];
+        //$scope.crumbs=[{name:"crumb1", id: 1},{name:"crumb2", id: 1},{name:"crumb3", id: 1}];
+        //$scope.supercategories=[{name:"super categoria 1",id:1},{name:"super categoria 2",id:2},{name:"super categoria 3",id:3}];
         $location.search({});
 
         //Ver categoria
@@ -30,20 +28,36 @@ stohtModule.controller('categoriesController',
         };
 
         //Obtener Lista de categorias
-        /*
+
         categoryService.categories({}).then(function (object) {
             if(object.data['result'] != undefined){
-              $scope.categories = object.data['result'];
+              $scope.supercategories = object.data['result'];
+              $scope.category= $scope.supercategories[0];
+              categoryService.getChildren({'parentCategory':$scope.category.id}).then(function (object) {
+                if(object.data['result'] != undefined){
+                  $scope.categories = object.data['result'];
+                }else{
+                    $scope.categories = [];
+                }
+              });
+                categoryService.breadcrumbs({id:$scope.category.id}).then(function (object) {
+                    if(object.data['result'] != undefined){
+                      $scope.crumbs = object.data['result'];
+                        $scope.crumbs.pop();
+                    }else{
+                        $scope.crumbs = [];
+                    }
+                  });
             }else{
-                $scope.categories = [];
+                $scope.supercategories = [];
             }
           });
-        */
+
 
         //Crear categoria
         $scope.save = function() {
-                /*
-                categoryService.createCategory({nombre: $scope.name}).then(function (object) {
+
+                categoryService.createCategory({name: $scope.name}).then(function (object) {
                 if (object.data['error'] != undefined) {
                         $scope.msg = object.data['error'];
                     } else {
@@ -51,9 +65,9 @@ stohtModule.controller('categoriesController',
                             $scope.msg = object.data['reason'];
                             categoryService.categories({}).then(function (object) {
                                 if(object.data['result'] != undefined){
-                                  $scope.categories = object.data['result'];
+                                  $scope.supercategories = object.data['result'];
                                 }else{
-                                    $scope.categories = [];
+                                    $scope.supercategories = [];
                                 }
                               });
                         }else{
@@ -61,14 +75,47 @@ stohtModule.controller('categoriesController',
                         }
                     }
               });
-        */
+
+
+      };
+
+        $scope.saveSub = function() {
+
+                categoryService.createCategory({name: $scope.subname, isSubCategory: true, parentCategory: $scope.category.id }).then(function (object) {
+                if (object.data['error'] != undefined) {
+                        $scope.msg = object.data['error'];
+                    } else {
+                        if (object.data['status'] != 'failure') {
+                            $scope.msg = object.data['reason'];
+                            categoryService.getChildren({'parentCategory':$scope.category.id}).then(function (object) {
+                                if(object.data['result'] != undefined){
+                                  $scope.categories = object.data['result'];
+                                }else{
+                                    $scope.categories = [];
+                                }
+                              });
+                            categoryService.breadcrumbs({id:$scope.category.id}).then(function (object) {
+                                if(object.data['result'] != undefined){
+                                  $scope.crumbs = object.data['result'];
+                                    $scope.crumbs.pop();
+                                }else{
+                                    $scope.crumbs = [];
+                                }
+                              });
+                            $scope.subname = "";
+                        }else{
+                            $scope.msg = object.data['reason'];
+                        }
+                    }
+              });
+
 
       };
 
         //Eliminar categoria
         $scope.delete = function(id) {
-            /*
-                categoryService.deleteCategory({userId: id}).then(function (object) {
+
+                categoryService.deleteCategory({id: id}).then(function (object) {
                 if(object.data['error'] != undefined){
                   $scope.msg = object.data['error'];
                 }else{
@@ -77,17 +124,98 @@ stohtModule.controller('categoriesController',
                     //Recargar lista de categorias
                     categoryService.categories({}).then(function (object) {
                         if(object.data['result'] != undefined){
-                          $scope.categories = object.data['result'];
+                          $scope.supercategories = object.data['result'];
                         }else{
-                            $scope.categories = [];
+                            $scope.supercategories = [];
                         }
                       });
 
                 }
               });
-              */
+
 
       };
+
+        //Eliminar subcategoria
+        $scope.deletesub = function(id) {
+
+                categoryService.deleteCategory({id: id}).then(function (object) {
+                //Recargar lista de subcategorias
+                if(object.data['error'] != undefined){
+                  $scope.msg = object.data['error'];
+                }else{
+                    $scope.msg = object.data['reason'];
+                }
+                categoryService.getChildren({'parentCategory':$scope.category.id}).then(function (object) {
+                    if(object.data['result'] != undefined){
+                      $scope.categories = object.data['result'];
+                    }else{
+                        $scope.categories = [];
+                    }
+                  });
+                categoryService.breadcrumbs({id:$scope.category.id}).then(function (object) {
+                    if(object.data['result'] != undefined){
+                      $scope.crumbs = object.data['result'];
+                        $scope.crumbs.pop();
+                    }else{
+                        $scope.crumbs = [];
+                    }
+                  });
+              });
+      };
+
+        //actualizar categoria
+        $scope.update = function() {
+                categoryService.updateCategory({name: $scope.category.name, id: $scope.category.id, isSubcategory: $scope.category.isSubCategory, parentCategory: $scope.category.parent }).then(function (object) {
+                if (object.data['error'] != undefined) {
+                        $scope.msg = object.data['error'];
+                    } else {
+                        if (object.data['status'] != 'failure') {
+                            $scope.msg = object.data['reason'];
+                            categoryService.categories({}).then(function (object) {
+                                if(object.data['result'] != undefined){
+                                  $scope.supercategories = object.data['result'];
+                                }else{
+                                    $scope.supercategories = [];
+                                }
+                              });
+                                categoryService.breadcrumbs({id:$scope.category.id}).then(function (object) {
+                                if(object.data['result'] != undefined){
+                                  $scope.crumbs = object.data['result'];
+                                    $scope.crumbs.pop();
+                                }else{
+                                    $scope.crumbs = [];
+                                }
+                          });
+                        }else{
+                            $scope.msg = object.data['reason'];
+                        }
+                    }
+              });
+
+
+      };
+
+        $scope.viewCategory = function(category) {
+                $scope.category = category;
+                categoryService.getChildren({'parentCategory':$scope.category.id}).then(function (object) {
+                if(object.data['result'] != undefined){
+                  $scope.categories = object.data['result'];
+                }else{
+                    $scope.categories = [];
+                }
+              });
+                categoryService.breadcrumbs({id:$scope.category.id}).then(function (object) {
+                    if(object.data['result'] != undefined){
+                      $scope.crumbs = object.data['result'];
+                        $scope.crumbs.pop();
+                    }else{
+                        $scope.crumbs = [];
+                    }
+                  });
+      };
+
+
 
         //cierre de sesion
         $scope.logout = function() {
