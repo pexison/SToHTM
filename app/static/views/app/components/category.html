@@ -1,0 +1,45 @@
+<div class="col-lg-4">
+    <div class="pad form-adduser">
+
+            <div class="row">
+                <div align="right" class="col-sm-6">
+                <div class="glyphicon glyphicon-remove-sign clickable-button" ng-click="delete(category.id)" div></div>
+            </div>
+                <div class="col-sm-12">
+                <ol class="breadcrumb">
+                  <li ng-repeat="crumb in crumbs" class="clickable-button" ng-click="viewCategory(crumb.id)"><a>{{crumb.name}}</a></li>
+                </ol>
+                </div>
+            </div>
+            <div class="row user-profile-category">
+              <div class="col-xs-6 text-bold">
+                Categoria:
+              </div>
+              <div class="col-xs-6">
+                {{category.name}}
+              </div>
+            </div>
+            <div class="row user-profile-category">
+              <div class="col-xs-6 text-bold">
+                Subcategorias:
+              </div>
+              <div class="col-xs-6">
+              </div>
+            </div>
+            <div class="row user-profile-category" ng-repeat="subcategory in categories">
+                <div class="col-xs-6">
+              </div>
+                <div class=" col-xs-6 clickable-button"  ng-click="viewCategory(category.id)">
+                    {{subcategory.name}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                   <input id="name" ng-model="$parent.name" type="text" class="form-control repeat-pass first-input last-input" placeholder="Subcategoria">
+                </div>
+                <div class="col-sm-4">
+                   <button id="saveButton" class="btn btn-lg btn-primary btn-block" ng-click="save()" type="button">Agregar</button>
+                </div>
+            </div>
+    </div>
+</div>
