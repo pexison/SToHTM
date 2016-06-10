@@ -10,8 +10,10 @@ from app.routes import index
 from app.api.user_api import user
 from app.api.session_api import auth
 from app.api.profile_api import profile
+from app.api.categories_api import category
 
 app.config.from_object('config')
 app.register_blueprint(user)
 app.register_blueprint(auth)
 app.register_blueprint(profile)
+app.register_blueprint(category)
