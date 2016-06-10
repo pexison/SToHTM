@@ -105,8 +105,8 @@ class Category(db.Model):
                 db.session.commit()
                 return {'status': 'success', 'reason': 'Category Created'}
 
-                else:
-                    return {'status': 'failure', 'reason': 'Parent category not found'}
+            else:
+                return {'status': 'failure', 'reason': 'Parent category not found'}
 
 
         return {'status': 'failure', 'reason': 'The category is already created'}
