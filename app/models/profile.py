@@ -23,14 +23,14 @@ class Profile(db.Model):
     seminars        = db.Column(db.String(300))
     papers          = db.Column(db.String(300))
     publications    = db.Column(db.String(300))
-    scolarships     = db.Column(db.String(300))
+    scholarships     = db.Column(db.String(300))
 
 
     def __init__(self, email=None, gender=None, age=None, vision=None,
                 abilities=None, skills=None, formation=None,
                 experience=None, courses=None, workshops=None,
                 seminars=None, papers=None, publications=None,
-                scolarships=None):
+                 scholarships=None):
 
         '''Constructor del modelo usuario'''
         self.email          = email
@@ -46,7 +46,7 @@ class Profile(db.Model):
         self.seminars       = seminars
         self.papers         = papers
         self.publications   = publications
-        self.scolarships    = scolarships
+        self.scholarships    = scholarships
 
 
     def __repr__(self):
@@ -66,7 +66,7 @@ class Profile(db.Model):
 
     def createProfile(self, email, gender, age, vision, abilities,
         skills, formation, experience, courses, workshops,
-        seminars, papers, publications, scolarships):
+        seminars, papers, publications, scholarships):
 
         '''Permite crearle un perfil a un usuario'''
 
@@ -84,7 +84,7 @@ class Profile(db.Model):
         seminars        = seminars or ""
         papers          = papers or ""
         publications    = publications or ""
-        scolarships     = scolarships or ""
+        scholarships     = scholarships or ""
 
         u = User()
         findUser = u.getUserByEmail(email)
@@ -96,7 +96,7 @@ class Profile(db.Model):
             if findUser != []:
                 newProfile = Profile(email,gender,age,vision,abilities,skills,
                     formation,experience,courses,workshops,seminars,papers,
-                    publications,scolarships)
+                    publications,scholarships)
                 db.session.add(newProfile)
                 db.session.commit()
                 return {'status': 'success', 'reason': 'Profile created'}
@@ -127,7 +127,7 @@ class Profile(db.Model):
 
     def updateProfile(self, email=None, gender=None, age=None, vision=None, abilities=None,
         skills=None, formation=None, experience=None, courses=None, workshops=None,
-        seminars=None, papers=None, publications=None, scolarships=None):
+        seminars=None, papers=None, publications=None, scholarships=None):
         '''Permite actualizar el perfil de un usuario'''
 
         # None checks
@@ -144,7 +144,7 @@ class Profile(db.Model):
         seminars        = seminars or ""
         papers          = papers or ""
         publications    = publications or ""
-        scolarships     = scolarships or ""
+        scholarships     = scholarships or ""
 
         u = User()
         findUser = u.getUserByEmail(email)
@@ -179,8 +179,8 @@ class Profile(db.Model):
                     findProfile.papers = papers
                 if publications !="":
                     findProfile.publications = publications
-                if scolarships != "":
-                    findProfile.scolarships = scolarships
+                if scholarships != "":
+                    findProfile.scholarships = scholarships
 
                 db.session.commit()
 
