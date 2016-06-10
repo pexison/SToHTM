@@ -4,7 +4,7 @@ from app.models.db import db
 
 
 class Category(db.Model):
-    '''Clase que define el modelo Usuario'''
+    '''Clase que define el modelo Categoria'''
 
     __tablename__ = 'category'
     categoryId = db.Column(db.Integer, primary_key=True, index=True)
@@ -51,10 +51,8 @@ class Category(db.Model):
 
         category = self.query.filter_by(isSubCategory=False).all()
 
-        if category != []:
-            return category
-        else:
-            return {'status': 'failure', 'reason': 'There are not categories'}
+        return category
+
 
     def getSubCategories(self, id):
         ''' Permite obtener las subcategorias dado un categoryId PADRE'''
@@ -65,11 +63,8 @@ class Category(db.Model):
 
             category = self.query.filter_by(parentCategory=id).all()
 
-            if category != []:
-                return category
-            else:
-                return {'status': 'failure',
-                        'reason': 'Category does not has subcategories'}
+            return category
+
 
         return {'status': 'failure',
                 'reason': 'Category parent does not exist'}
@@ -100,8 +95,7 @@ class Category(db.Model):
         findParent = self.getCategoryById(parentCategory)
 
         if findCategory is None:
-
-            if findParent != []:
+            if findParent != [] or (parentCategory == 0):
                 newCategory = Category(name, isSubCategory, parentCategory)
                 db.session.add(newCategory)
                 db.session.commit()
@@ -141,12 +135,9 @@ class Category(db.Model):
             # Si el name no es none
             if name != "":
                 findCategory.name = name
-
-            if isSubCategory:
+            if isSubCategory != None:
                 findParent = self.getCategoryById(parentCategory)
-
                 if findParent != []:
-
                     findCategory.parentCategory = parentCategory
                     findCategory.isSubCategory = isSubCategory
                     db.session.commit()
@@ -156,13 +147,9 @@ class Category(db.Model):
                     return {'status': 'failure',
                             'reason': 'Parent category not found'}
 
-            if not isSubCategory:
-                findCategory.parentCategory = 0
-                findCategory.isSubCategory = isSubCategory
-                db.session.commit()
-                return {'status': 'success', 'reason': 'Category updated'}
-
             else:
+                findCategory.parentCategory = 0
+                findCategory.isSubCategory = False
                 db.session.commit()
                 return {'status': 'success', 'reason': 'Category updated'}
 
