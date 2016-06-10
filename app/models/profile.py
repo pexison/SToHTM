@@ -18,19 +18,19 @@ class Profile(db.Model):
     skills          = db.Column(db.String(300))
     formation       = db.Column(db.String(30))
     experience      = db.Column(db.String(300))
-    curses          = db.Column(db.String(300))
+    courses          = db.Column(db.String(300))
     workshops       = db.Column(db.String(300))
     seminars        = db.Column(db.String(300))
     papers          = db.Column(db.String(300))
     publications    = db.Column(db.String(300))
-    scolarships     = db.Column(db.String(300))
+    scholarships     = db.Column(db.String(300))
 
 
     def __init__(self, email=None, gender=None, age=None, vision=None,
                 abilities=None, skills=None, formation=None,
-                experience=None, curses=None, workshops=None,
+                experience=None, courses=None, workshops=None,
                 seminars=None, papers=None, publications=None,
-                scolarships=None):
+                 scholarships=None):
 
         '''Constructor del modelo usuario'''
         self.email          = email
@@ -41,12 +41,12 @@ class Profile(db.Model):
         self.skills         = skills
         self.formation      = formation
         self.experience     = experience
-        self.curses         = curses
+        self.courses         = courses
         self.workshops      = workshops
         self.seminars       = seminars
         self.papers         = papers
         self.publications   = publications
-        self.scolarships    = scolarships
+        self.scholarships    = scholarships
 
 
     def __repr__(self):
@@ -65,8 +65,8 @@ class Profile(db.Model):
             return profile
 
     def createProfile(self, email, gender, age, vision, abilities,
-        skills, formation, experience, curses, workshops,
-        seminars, papers, publications, scolarships):
+        skills, formation, experience, courses, workshops,
+        seminars, papers, publications, scholarships):
 
         '''Permite crearle un perfil a un usuario'''
 
@@ -79,12 +79,12 @@ class Profile(db.Model):
         skills          = skills or ""
         formation       = formation or ""
         experience      = experience or ""
-        curses          = curses or ""
+        courses          = courses or ""
         workshops       = workshops or ""
         seminars        = seminars or ""
         papers          = papers or ""
         publications    = publications or ""
-        scolarships     = scolarships or ""
+        scholarships     = scholarships or ""
 
         u = User()
         findUser = u.getUserByEmail(email)
@@ -95,8 +95,8 @@ class Profile(db.Model):
 
             if findUser != []:
                 newProfile = Profile(email,gender,age,vision,abilities,skills,
-                    formation,experience,curses,workshops,seminars,papers,
-                    publications,scolarships)
+                    formation,experience,courses,workshops,seminars,papers,
+                    publications,scholarships)
                 db.session.add(newProfile)
                 db.session.commit()
                 return {'status': 'success', 'reason': 'Profile created'}
@@ -126,8 +126,8 @@ class Profile(db.Model):
         return profile
 
     def updateProfile(self, email=None, gender=None, age=None, vision=None, abilities=None,
-        skills=None, formation=None, experience=None, curses=None, workshops=None,
-        seminars=None, papers=None, publications=None, scolarships=None):
+        skills=None, formation=None, experience=None, courses=None, workshops=None,
+        seminars=None, papers=None, publications=None, scholarships=None):
         '''Permite actualizar el perfil de un usuario'''
 
         # None checks
@@ -139,12 +139,12 @@ class Profile(db.Model):
         skills          = skills or ""
         formation       = formation or ""
         experience      = experience or ""
-        curses          = curses or ""
+        courses          = courses or ""
         workshops       = workshops or ""
         seminars        = seminars or ""
         papers          = papers or ""
         publications    = publications or ""
-        scolarships     = scolarships or ""
+        scholarships     = scholarships or ""
 
         u = User()
         findUser = u.getUserByEmail(email)
@@ -169,8 +169,8 @@ class Profile(db.Model):
                     findProfile.formation = formation
                 if experience != "":
                     findProfile.experience = experience
-                if curses != "":
-                    findProfile.curses = curses
+                if courses != "":
+                    findProfile.courses = courses
                 if workshops != "":
                     findProfile.workshops = workshops
                 if seminars != "":
@@ -179,8 +179,8 @@ class Profile(db.Model):
                     findProfile.papers = papers
                 if publications !="":
                     findProfile.publications = publications
-                if scolarships != "":
-                    findProfile.scolarships = scolarships
+                if scholarships != "":
+                    findProfile.scholarships = scholarships
 
                 db.session.commit()
 
