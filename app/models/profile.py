@@ -18,7 +18,7 @@ class Profile(db.Model):
     skills          = db.Column(db.String(300))
     formation       = db.Column(db.String(30))
     experience      = db.Column(db.String(300))
-    curses          = db.Column(db.String(300))
+    courses          = db.Column(db.String(300))
     workshops       = db.Column(db.String(300))
     seminars        = db.Column(db.String(300))
     papers          = db.Column(db.String(300))
@@ -28,7 +28,7 @@ class Profile(db.Model):
 
     def __init__(self, email=None, gender=None, age=None, vision=None,
                 abilities=None, skills=None, formation=None,
-                experience=None, curses=None, workshops=None,
+                experience=None, courses=None, workshops=None,
                 seminars=None, papers=None, publications=None,
                 scolarships=None):
 
@@ -41,7 +41,7 @@ class Profile(db.Model):
         self.skills         = skills
         self.formation      = formation
         self.experience     = experience
-        self.curses         = curses
+        self.courses         = courses
         self.workshops      = workshops
         self.seminars       = seminars
         self.papers         = papers
@@ -65,7 +65,7 @@ class Profile(db.Model):
             return profile
 
     def createProfile(self, email, gender, age, vision, abilities,
-        skills, formation, experience, curses, workshops,
+        skills, formation, experience, courses, workshops,
         seminars, papers, publications, scolarships):
 
         '''Permite crearle un perfil a un usuario'''
@@ -79,7 +79,7 @@ class Profile(db.Model):
         skills          = skills or ""
         formation       = formation or ""
         experience      = experience or ""
-        curses          = curses or ""
+        courses          = courses or ""
         workshops       = workshops or ""
         seminars        = seminars or ""
         papers          = papers or ""
@@ -95,7 +95,7 @@ class Profile(db.Model):
 
             if findUser != []:
                 newProfile = Profile(email,gender,age,vision,abilities,skills,
-                    formation,experience,curses,workshops,seminars,papers,
+                    formation,experience,courses,workshops,seminars,papers,
                     publications,scolarships)
                 db.session.add(newProfile)
                 db.session.commit()
@@ -126,7 +126,7 @@ class Profile(db.Model):
         return profile
 
     def updateProfile(self, email=None, gender=None, age=None, vision=None, abilities=None,
-        skills=None, formation=None, experience=None, curses=None, workshops=None,
+        skills=None, formation=None, experience=None, courses=None, workshops=None,
         seminars=None, papers=None, publications=None, scolarships=None):
         '''Permite actualizar el perfil de un usuario'''
 
@@ -139,7 +139,7 @@ class Profile(db.Model):
         skills          = skills or ""
         formation       = formation or ""
         experience      = experience or ""
-        curses          = curses or ""
+        courses          = courses or ""
         workshops       = workshops or ""
         seminars        = seminars or ""
         papers          = papers or ""
@@ -169,8 +169,8 @@ class Profile(db.Model):
                     findProfile.formation = formation
                 if experience != "":
                     findProfile.experience = experience
-                if curses != "":
-                    findProfile.curses = curses
+                if courses != "":
+                    findProfile.courses = courses
                 if workshops != "":
                     findProfile.workshops = workshops
                 if seminars != "":
