@@ -9,7 +9,8 @@ stohtModule.controller('userController',
                     $scope.actorRol = object.data['actorRol'];
                     $scope.isAdmin= ($scope.actorRol & 1) !== 0;
                     $scope.isOperator= ($scope.actorRol & 2) !== 0;
-                    $scope.isClient = ($scope.actorRol & 3) !==0;
+                    $scope.isClient = ($scope.actorRol & 4) !==0;
+                    $scope.isManager = ($scope.actorRol & 16) !==0;
                 } else {
                     $location.path(object.data['redirect']);
                 }
