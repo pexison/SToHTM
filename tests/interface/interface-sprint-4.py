@@ -9,6 +9,8 @@ assert 'SToHTM' in browser.title
 
 # login
 
+sleep(6)
+
 user = browser.find_element_by_id('inputEmail')
 password = browser.find_element_by_id('inputPassword')
 user.send_keys('gsinovsky@gmail.com')
@@ -65,10 +67,13 @@ browser.find_element_by_xpath("(//a[contains(text(),'Categorias')])").click()
 
 browser.execute_script("window.scrollTo(0, document.body.scrollHeight/2);")
 sleep(2)
-#categoryName = browser.find_element_by_xpath("//*[@id='name']")
-#categoryName.send_keys('Software')
-#sleep(2)
-#browser.find_element_by_xpath("//*[@id='saveButton']").click()
-
-
-
+categoryName = browser.find_element_by_id('name')
+categoryName.send_keys('Actualización')
+sleep(2)
+browser.find_element_by_id('saveButton').click()
+sleep(4)
+subcategoryName = browser.find_element_by_id('SubcategoryName')
+subcategoryName.send_keys('Sistema Operativo')
+sleep(2)
+browser.find_element_by_id('SubCategorySaveButton').click()
+sleep(2)
