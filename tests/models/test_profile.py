@@ -8,19 +8,19 @@ from app.models.profile import Profile
 
 template = dict(
     email="manuelalejandropm@gmail.com",
-    sexo="Masculino",
-    edad=22,
+    gender="Masculino",
+    age=22,
     vision="Alguna Vision",
-    habilidades="Algunas habilidades",
-    destrezas="Algunas destrezas",
-    formacion="Algunas formacion",
-    experiencia="Alguna experiencia",
-    cursos="Algunso cursos",
-    talleres="Algunos talleres",
-    seminarios="Algunso seminarions",
-    ponencias="Algunas ponencias",
-    publicaciones="Algunas publicaciones",
-    becas="Algunas becas",
+    abilities="Algunas habilidades",
+    skills="Algunas destrezas",
+    formation="Algunas formacion",
+    experience="Alguna experiencia",
+    courses="Algunso cursos",
+    workshops="Algunos talleres",
+    seminars="Algunso seminarions",
+    papers="Algunas ponencias",
+    publications="Algunas publicaciones",
+    scolarships="Algunas becas",
 )
 
 def load_test_cases():
@@ -80,18 +80,3 @@ class TestProfileModel(unittest.TestCase):
 
         profileCreated = self.Profile.createProfile(**data)
         self.assertEqual(profileCreated['status'], 'success')  # TODO SHOULD FAIL
-
-    def test_createProfileWithoutSex(self):
-        data = deepcopy(template)
-        data['sexo'] = None
-
-        profileCreated = self.Profile.createProfile(**data)
-        self.assertEqual(profileCreated['status'], 'success')
-
-    def test_createUserWithEmptySex(self):
-        data = deepcopy(template)
-        data['sexo'] = ""
-
-        profileCreated = self.Profile.createProfile(**data)
-        self.assertEqual(profileCreated['status'], 'success')
-
