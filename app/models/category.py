@@ -89,6 +89,7 @@ class Category(db.Model):
     def createCategory(self, name, isSubCategory, parentCategory):
         '''Permite insertar una categoria'''
 
+        print(name, isSubCategory, parentCategory)
         # None checks
         name = name or ""
         isSubCategory = isSubCategory or False
