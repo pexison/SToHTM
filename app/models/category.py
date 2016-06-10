@@ -68,10 +68,8 @@ class Category(db.Model):
 
             category = self.query.filter_by(parentCategory=id).all()
 
-            if category != []:
-                return category
-            else:
-                return {'status': 'failure', 'reason': 'Category does not has subcategories'}
+            return category
+          
 
         return {'status': 'failure', 'reason': 'Category parent does not exist'}
 
@@ -104,15 +102,22 @@ class Category(db.Model):
 
         if findCategory == None:
 
-            if findParent != []:
-                newCategory = Category(name,isSubCategory,parentCategory)
+            if (isSubCategory == False):
+                newCategory = Category(name,isSubCategory,0)
                 db.session.add(newCategory)
                 db.session.commit()
                 return {'status': 'success', 'reason': 'Category Created'}
 
-            else:
-                return {'status': 'failure', 'reason': 'Parent category not found'}
-        
+            if (isSubCategory == True):
+                if findParent != []:
+                    newCategory = Category(name,isSubCategory,parentCategory)
+                    db.session.add(newCategory)
+                    db.session.commit()
+                    return {'status': 'success', 'reason': 'Category Created'}
+
+                else:
+                    return {'status': 'failure', 'reason': 'Parent category not found'}
+            
         
         return {'status': 'failure', 'reason': 'The category is already created'}
 
