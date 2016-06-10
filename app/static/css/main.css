@@ -109,6 +109,9 @@ body {
   color: #999999;
   margin-bottom: 5px;
 }
+.form-addcategory{
+    max-width: 100% !important;
+}
 .form-adduser {
     margin-top:70px;
 }
