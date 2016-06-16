@@ -9,16 +9,16 @@ class Service(db.Model):
     '''Clase que define el modelo Servicio'''
 
     __tablename__ = 'service'
-    serviceId   = db.Column(db.Integer, primary_key=True, index=True)
-    name        = db.Column(db.String(100), unique=True)
-    category    = db.Column(db.String(30), db.ForeignKey('category.name'))
-    user        = db.Column(db.String(30), db.ForeignKey('user.email'))
+    serviceId = db.Column(db.Integer, primary_key=True, index=True)
+    name = db.Column(db.String(100), unique=True)
+    category = db.Column(db.String(30), db.ForeignKey('category.name'))
+    user = db.Column(db.String(30), db.ForeignKey('user.email'))
 
     def __init__(self, name=None, category=None, user=None):
         '''Constructor del modelo servicio'''
-        self.name       = name
-        self.category   = category
-        self.user       = user
+        self.name = name
+        self.category = category
+        self.user = user
 
     def __repr__(self):
         '''Representacion en string del modelo servicio'''
@@ -42,7 +42,6 @@ class Service(db.Model):
             if service == []:
                 return []
             return service[0]
-
 
     def getServiceByName(self, name):
         '''Permite buscar un servicio por nombre'''
@@ -86,10 +85,9 @@ class Service(db.Model):
                 else:
                     return {'status': 'failure', 'reason': 'User not found'}
             else:
-                    return {'status': 'failure', 'reason': 'Category not found'}
+                return {'status': 'failure', 'reason': 'Category not found'}
 
         return {'status': 'failure', 'reason': 'The service is already created'}
-
 
     def deleteService(self, id):
         '''Permite eliminar un servicio'''
@@ -103,7 +101,6 @@ class Service(db.Model):
 
         return {'status': 'failure', 'reason': 'Couldnt find service :('}
 
-
     def updateService(self, serviceId, name=None, category=None, user=None):
         '''Permite actualizar un servicio'''
 
@@ -111,7 +108,6 @@ class Service(db.Model):
         name = name or ""
         category = category or ""
         user = user or ""
-
 
         findService = self.getServiceById(serviceId)
 
