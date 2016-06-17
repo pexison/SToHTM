@@ -47,6 +47,14 @@ stohtModule.service('categoryService', ['$q', '$http', function($q, $http) {
         });
     };
 
+    this.categoriesTree = function(args) {
+        return  $http({
+          url: "/categories/tree",
+          method: 'GET',
+          params: args
+        });
+    };
+
 
 }]);
 
