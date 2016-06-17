@@ -200,7 +200,6 @@ class Profile(db.Model):
         ''' permite borrar un perfil de un usuario '''
 
         findProfile = self.getProfileById(id)
-        print(findProfile)
 
         if findProfile != {'status': 'failure', 'reason': ' Id not integer'}:
             self.query.filter_by(perfilId=id).delete()
