@@ -1,4 +1,4 @@
-from flask import Blueprint, json, request
+from flask import Blueprint, json, request, session
 
 from app.models.service import Service
 
@@ -9,13 +9,11 @@ service = Blueprint('service', __name__,)
 def create_service():
     name = request.args.get('name')
     category = request.args.get('category') or None
-    user = request.args.get('user') or None
+    user = session['email']
     if request.args.get('name') is None or len(request.args.get('name')) == 0:
         res = {'error': 'You must provide a valid service name.'}
     if request.args.get('category') is None or len(request.args.get('category')) == 0:
         res = {'error': 'You must provide a valid category.'}
-    if request.args.get('user') is None or len(request.args.get('user')) == 0:
-        res = {'error': 'You must provide a valid user.'}
     else:
         ServiceInstance = Service()
         result = ServiceInstance.createService(
@@ -37,6 +35,20 @@ def get_services():
                        'user': service.user})
 
     return json.dumps(rescat)
+
+@service.route('/userServices', methods=['GET'])
+def get_user_services():
+    user = session['email']
+    ServiceInstance = Service()
+    services = ServiceInstance.getServicesByUser(user)
+    rescat = []
+    for service in services:
+        rescat.append({'id': service.serviceId,
+                       'name': service.name,
+                       'category': service.category,
+                       'user': service.user})
+    res = {'result':rescat}
+    return json.dumps(res)
 
 
 @service.route('/service', methods=['GET'])
