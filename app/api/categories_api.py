@@ -114,3 +114,26 @@ def get_breadcrumbs():
     res = {'result': rescat}
 
     return json.dumps(res)
+
+@category.route('/categories/tree', methods=['GET'])
+def get_tree():
+    CategoryInstance = Category()
+    categories = CategoryInstance.getCategories()
+    rescat = []
+    for category in categories:
+        rescat.append({'categoryName': category.name,
+                       'categoryId': category.categoryId,
+                       'children': get_subtree(category.categoryId)})
+    res = {'result': rescat}
+
+    return json.dumps(res)
+
+def get_subtree(id):
+    CategoryInstance = Category()
+    categories = CategoryInstance.getSubCategories(id)
+    rescat = []
+    for category in categories:
+        rescat.append({'categoryName': category.name,
+                       'categoryId': category.categoryId,
+                       'children': get_subtree(category.categoryId)})
+    return rescat
