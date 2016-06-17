@@ -101,7 +101,7 @@ def get_breadcrumbs():
     category = int(request.args.get('id'))
     CategoryInstance = Category()
     rescat = []
-    while category != 0:
+    while category != 0 and category is not None:
         parent = CategoryInstance.getCategoryById(category)
         rescat.append({'name': parent.name,
                        'id': parent.categoryId,
