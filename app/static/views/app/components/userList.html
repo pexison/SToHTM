@@ -9,9 +9,6 @@
                         <b>Correo</b>
                     </td>
                     <td>
-                        <b>Rol</b>
-                    </td>
-                    <td>
                         <center><b>Eliminar</b></center>
                     </td>
                 </tr>
@@ -21,9 +18,6 @@
                     </td>
                     <td class ="clickable-button" ng-click="viewUser(user.id)">
                         {{user.email}}
-                    </td>
-                    <td class ="clickable-button" ng-click="viewUser(user.id)">
-                        {{user.rol == 1? "Administrador":"Usuario"}}
                     </td>
                     <td>
                         <center><div class="glyphicon glyphicon-remove-sign clickable-button" ng-click="delete(user.id)" div></div></center>
