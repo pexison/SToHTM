@@ -38,6 +38,9 @@
                         <b>Servicio solicitado</b>
                     </td>
                     <td>
+                        <b>Categoría</b>
+                    </td>                    
+                    <td>
                         <center><b>Eliminar</b></center>
                     </td>
                 </tr>
@@ -46,6 +49,9 @@
                     <td class ="clickable-button">
                         {{service.name}}
                     </td>
+                    <td class ="clickable-button">
+                        {{service.category}}
+                    </td>                    
                     <td>
                         <center><div class="glyphicon glyphicon-remove-sign clickable-button" ng-click="delete(service.id)" div></div></center>
                     </td>
