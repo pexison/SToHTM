@@ -129,7 +129,10 @@ class Category(db.Model):
                 findCategory.name = name
 
             if isSubCategory != None:
-                findParent = self.getCategoryById(parentCategory)
+                if parentCategory is None:
+                    findParent = []
+                else:
+                    findParent = self.getCategoryById(parentCategory)
                 if findParent != []:
                     findCategory.parentCategory = parentCategory
                     findCategory.isSubCategory = isSubCategory
