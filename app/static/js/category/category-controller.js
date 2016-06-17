@@ -4,7 +4,7 @@ stohtModule.controller('categoriesController',
     function ($scope, $location, $route, flash, categoryService, loginService) {
         $scope.view= "categories";
 
-        loginService.check({'securityLvl': 16}).then(function (object) {
+        loginService.check({'securityLvl': 17}).then(function (object) {
                 if (object.data['redirect'] == undefined) {
                     $scope.actorName = object.data['actorName'];
                     $scope.actorRol = object.data['actorRol'];
@@ -33,21 +33,23 @@ stohtModule.controller('categoriesController',
             if(object.data['result'] != undefined){
               $scope.supercategories = object.data['result'];
               $scope.category= $scope.supercategories[0];
-              categoryService.getChildren({'parentCategory':$scope.category.id}).then(function (object) {
-                if(object.data['result'] != undefined){
-                  $scope.categories = object.data['result'];
-                }else{
-                    $scope.categories = [];
-                }
-              });
-                categoryService.breadcrumbs({id:$scope.category.id}).then(function (object) {
+                if($scope.category != undefined){
+                  categoryService.getChildren({'parentCategory':$scope.category.id}).then(function (object) {
                     if(object.data['result'] != undefined){
-                      $scope.crumbs = object.data['result'];
-                        $scope.crumbs.pop();
+                      $scope.categories = object.data['result'];
                     }else{
-                        $scope.crumbs = [];
+                        $scope.categories = [];
                     }
                   });
+                    categoryService.breadcrumbs({id:$scope.category.id}).then(function (object) {
+                        if(object.data['result'] != undefined){
+                          $scope.crumbs = object.data['result'];
+                            $scope.crumbs.pop();
+                        }else{
+                            $scope.crumbs = [];
+                        }
+                      });
+                    }
             }else{
                 $scope.supercategories = [];
             }
@@ -56,7 +58,6 @@ stohtModule.controller('categoriesController',
 
         //Crear categoria
         $scope.save = function() {
-
                 categoryService.createCategory({name: $scope.name}).then(function (object) {
                 if (object.data['error'] != undefined) {
                         $scope.msg = object.data['error'];
