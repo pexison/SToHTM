@@ -15,7 +15,10 @@
                     <a href="#userList" ng-if="isAdmin">Usuarios</a>
                 </li>
                 <li class= "{{view == 'categories' ? 'sidebar-selected':' '}}">
-                    <a href="#categories" ng-if="isManager">Categorias</a>
+                    <a href="#categories" ng-if="isManager || isAdmin">Categorias</a>
+                </li>
+                <li class= "{{view == 'services' ? 'sidebar-selected':' '}}">
+                    <a href="#services" ng-if="isClient">Servicios</a>
                 </li>
             </ul>
         </div>
