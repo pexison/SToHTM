@@ -18,14 +18,8 @@ stohtModule.controller('categoriesController',
                 }
             });
         $scope.msg = "";
-        //$scope.crumbs=[{name:"crumb1", id: 1},{name:"crumb2", id: 1},{name:"crumb3", id: 1}];
-        //$scope.supercategories=[{name:"super categoria 1",id:1},{name:"super categoria 2",id:2},{name:"super categoria 3",id:3}];
         $location.search({});
 
-        //Ver categoria
-        $scope.viewCategory = function(id) {
-            //servicio para ver categoria
-        };
 
         //Obtener Lista de categorias
 
