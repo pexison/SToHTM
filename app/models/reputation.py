@@ -84,11 +84,11 @@ class Reputation(db.Model):
 
                 if findRatedUser != []:
 
-                    if findUser[0].rol == 4:
+                    if (findUser[0].rol & 2) == 2:
                         operator = findUser[0]
                         client = findRatedUser[0]
                     else:
-                        if findRatedUser[0].rol == 4:
+                        if (findRatedUser[0].rol & 2) == 2:
                             operator = findRatedUser[0]
                             client = findUser[0]
                         else:
@@ -197,11 +197,11 @@ class Reputation(db.Model):
                 findUser2 = u3.getUserById(newUser)
                 findRatedUser2 = u3.getUserById(newRatedUser)
 
-                if findUser2[0].rol == 4:
+                if (findUser2[0].rol & 2) == 2:
                     operator = findUser2[0]
                     client = findRatedUser2[0]
                 else:
-                    if findRatedUser2[0].rol == 4:
+                    if (findRatedUser2[0].rol & 2) == 2:
                         operator = findRatedUser2[0]
                         client = findUser2[0]
                     else:
