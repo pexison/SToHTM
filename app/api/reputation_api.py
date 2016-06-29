@@ -37,18 +37,11 @@ def get_reputations():
                        'value': reputation.value})
     return json.dumps(rescat)
 
-@reputation.route('/userReputations', methods=['GET'])
-def get_user_reputations():
+@reputation.route('/userReputation', methods=['GET'])
+def get_user_reputation():
     user = session['email']
     ReputationInstance = Reputation()
-    reputations = ReputationInstance.getReputationsByUser(user)
-    rescat = []
-    for reputation in reputations:
-        rescat.append({'id': reputation.reputationId,
-                       'contract': reputation.contract,
-                       'user': reputation.user,
-                       'ratedUser': reputation.ratedUser,
-                       'value': reputation.value})
+    rescat = ReputationInstance.getReputationFromUser(user)
     res = {'result':rescat}
     return json.dumps(res)
 
