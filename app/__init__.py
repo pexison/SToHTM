@@ -12,6 +12,7 @@ from app.api.session_api import auth
 from app.api.profile_api import profile
 from app.api.categories_api import category
 from app.api.services_api import service
+from app.api.reputation_api import reputation
 
 app.config.from_object('config')
 app.register_blueprint(user)
@@ -19,3 +20,4 @@ app.register_blueprint(auth)
 app.register_blueprint(profile)
 app.register_blueprint(category)
 app.register_blueprint(service)
+app.register_blueprint(reputation)
