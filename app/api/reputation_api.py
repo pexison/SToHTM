@@ -1,15 +1,18 @@
 from flask import Blueprint, json, request, session
 
 from app.models.reputation import Reputation
+from app.models.user import User
 
 reputation = Blueprint('reputation', __name__,)
 
 @reputation.route('/reputation/create', methods=['POST'])
 def create_reputation():
+
+    UserInstance = User()
+    user = UserInstance.getUserByEmail(session['email'])
     contract = request.args.get('contract')
-    ratedUser = request.args.get('ratedUser')
-    value = request.args.get('value')
-    user = session['email']
+    ratedUser= request.args.get('ratedUser')
+    value = int(request.args.get('value'))
     if request.args.get('contract') is None or len(request.args.get('contract')) == 0:
         res = {'error': 'You must provide a valid contract number.'}
     if request.args.get('ratedUser') is None or len(request.args.get('ratedUser')) == 0:
@@ -39,15 +42,16 @@ def get_reputations():
 
 @reputation.route('/userReputation', methods=['GET'])
 def get_user_reputation():
-    user = session['email']
+    UserInstance = User()
+    user = UserInstance.getUserByEmail(session['email'])
     ReputationInstance = Reputation()
-    rescat = ReputationInstance.getReputationFromUser(user)
+    rescat = ReputationInstance.getReputationFromUser(user[0].userId)
     res = {'result':rescat}
     return json.dumps(res)
 
 @reputation.route('/reputation', methods=['GET'])
 def get_reputation():
-    reputationId = request.args.get('reputationId')
+    reputationId = int(request.args.get('reputationId'))
     if request.args.get('reputationId') is None or len(request.args.get('reputationId')) == 0:
         res = {'error': 'You must provide a valid reputation id.'}
     else:
@@ -75,16 +79,13 @@ def delete_reputation():
 @reputation.route('/reputations/update', methods=['POST'])
 def update_reputation():
     reputationId = int(request.args.get('reputationId'))
-    contract = request.args.get('contract') or None
-    user = request.args.get('user') or None
-    ratedUser = request.args.get('ratedUser') or None
-    value = request.args.get('value') or None
+    value = int(request.args.get('value')) or None
     if request.args.get('reputationId') is None or len(request.args.get('reputationId')) == 0:
         res = {'error': 'You must provide a valid reputation id.'}
     else:
         ReputationInstance = Reputation()
         result = ReputationInstance.updateReputation(
-            reputationId, contract, user, ratedUser, value)
+            reputationId, None, None, None, value)
         res = result
 
     return json.dumps(res)
