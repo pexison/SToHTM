@@ -15,6 +15,7 @@ from app.api.services_api import service
 from app.api.reputation_api import reputation
 from app.api.suscription_api import suscription
 from app.api.request_api import requesta
+from app.api.quotation_api import quotation
 
 app.config.from_object('config')
 app.register_blueprint(user)
@@ -25,3 +26,4 @@ app.register_blueprint(service)
 app.register_blueprint(reputation)
 app.register_blueprint(suscription)
 app.register_blueprint(requesta)
+app.register_blueprint(quotation)
