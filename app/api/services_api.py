@@ -36,6 +36,7 @@ def get_services():
 
     return json.dumps(rescat)
 
+
 @service.route('/userServices', methods=['GET'])
 def get_user_services():
     user = session['email']
@@ -47,7 +48,7 @@ def get_user_services():
                        'name': service.name,
                        'category': service.category,
                        'user': service.user})
-    res = {'result':rescat}
+    res = {'result': rescat}
     return json.dumps(res)
 
 

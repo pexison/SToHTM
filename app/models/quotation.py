@@ -8,19 +8,19 @@ from app.models.service import Service
 class Quotation(db.Model):
     '''Clase que define el modelo cotizacion'''
 
-    __tablename__   = 'quotation'
-    quotationId     = db.Column(db.Integer, primary_key=True, index=True)
-    service         = db.Column(db.Integer, db.ForeignKey('service.serviceId'))
-    client          = db.Column(db.Integer, db.ForeignKey('user.userId'))
-    operator        = db.Column(db.Integer, db.ForeignKey('user.userId'))
-    price           = db.Column(db.Float)
+    __tablename__ = 'quotation'
+    quotationId = db.Column(db.Integer, primary_key=True, index=True)
+    service = db.Column(db.Integer, db.ForeignKey('service.serviceId'))
+    client = db.Column(db.Integer, db.ForeignKey('user.userId'))
+    operator = db.Column(db.Integer, db.ForeignKey('user.userId'))
+    price = db.Column(db.Float)
 
     def __init__(self, service=None, client=None, operator=None, price=None):
         '''Constructor del modelo cotizacion'''
-        self.service    = service
-        self.client     = client
-        self.operator   = operator
-        self.price      = price
+        self.service = service
+        self.client = client
+        self.operator = operator
+        self.price = price
 
     def __repr__(self):
         '''Representacion en string del modelo cotizacion'''
@@ -45,10 +45,11 @@ class Quotation(db.Model):
                 return []
             return quotation[0]
 
-    def checkQuotation(self,service,client,operator):
+    def checkQuotation(self, service, client, operator):
         '''Permite buscar una cotizacion dado el servicio, cliente y operador'''
 
-        quotation = self.query.filter_by(service=service,client=client,operator=operator).all()
+        quotation = self.query.filter_by(
+            service=service, client=client, operator=operator).all()
         if quotation == []:
             return []
         return quotation[0]
@@ -57,13 +58,13 @@ class Quotation(db.Model):
         '''Permite insertar una cotizacion'''
 
         # None checks
-        service     = service or ""
-        client      = client or ""
-        operator    = operator or ""
-        price       = price or ""
+        service = service or ""
+        client = client or ""
+        operator = operator or ""
+        price = price or ""
 
         if client != operator:
-            checkQuotation = self.checkQuotation(service,client,operator)
+            checkQuotation = self.checkQuotation(service, client, operator)
 
             if checkQuotation == []:
                 s = Service()
@@ -75,17 +76,20 @@ class Quotation(db.Model):
 
                     if findClient != []:
                         findOperator = u.getUserById(operator)
+                        print(findOperator)
 
                         if findOperator != []:
-                            checkServOpe = s.query.filter_by(serviceId=service,user=findOperator[0].email).all()
+                            checkServOpe = s.query.filter_by(
+                                serviceId=service, user=findOperator[0].email).all()
 
-                            if checkServOpe !=[]:
-                                if (price > 0) :
-                                    newQuotation = Quotation(service, client, operator, price)
+                            if checkServOpe != []:
+                                if (price > 0):
+                                    newQuotation = Quotation(
+                                        service, client, operator, price)
                                     db.session.add(newQuotation)
                                     db.session.commit()
                                     return {'status': 'success', 'reason': 'Quotation Created'}
-                                
+
                                 else:
                                     return {'status': 'failure', 'reason': 'Price cant be negative'}
                             else:
@@ -101,8 +105,6 @@ class Quotation(db.Model):
         else:
             return {'status': 'failure', 'reason': 'The client and operator cant be the same'}
 
-
-
     def deleteQuotation(self, id):
         '''Permite eliminar una cotizacion'''
 
@@ -115,15 +117,14 @@ class Quotation(db.Model):
 
         return {'status': 'failure', 'reason': 'Couldnt find quotation :('}
 
-
     def updateQuotation(self, quotationId, service=None, client=None, operator=None, price=None):
         '''Permite actualizar una cotizacion'''
 
         # None checks
-        service     = service or ""
-        client      = client or ""
-        operator    = operator or ""
-        price       = price or ""
+        service = service or ""
+        client = client or ""
+        operator = operator or ""
+        price = price or ""
 
         findQuotation = self.getQuotationById(quotationId)
 
@@ -171,14 +172,15 @@ class Quotation(db.Model):
                 u = User()
                 checkOpe = u.getUserById(newOperator)
                 s2 = Service()
-                checkServOpe = s2.query.filter_by(serviceId=newService,user=checkOpe[0].email).all()
-                
-                if checkServOpe !=[]:
-                    if (newPrice > 0) :
-                        findQuotation.service   = newService
-                        findQuotation.client    = newClient
-                        findQuotation.operator  = newOperator
-                        findQuotation.price     = newPrice
+                checkServOpe = s2.query.filter_by(
+                    serviceId=newService, user=checkOpe[0].email).all()
+
+                if checkServOpe != []:
+                    if (newPrice > 0):
+                        findQuotation.service = newService
+                        findQuotation.client = newClient
+                        findQuotation.operator = newOperator
+                        findQuotation.price = newPrice
                         db.session.commit()
                         return {'status': 'success', 'reason': 'Quotation updated'}
 
@@ -186,7 +188,7 @@ class Quotation(db.Model):
                         return {'status': 'failure', 'reason': 'Price cant be negative'}
                 else:
                     return {'status': 'failure', 'reason': 'Operator doesnt offer that service'}
-               
+
             else:
                 return {'status': 'failure', 'reason': 'The client and the operator cant be the same'}
         else:
