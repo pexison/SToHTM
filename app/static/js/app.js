@@ -34,6 +34,9 @@ stohtModule.config(function ($routeProvider) {
             }).when('/requests', {
                 controller: 'requestsController',
                 templateUrl: 'views/app/requests.html'
+            }).when('/quotations', {
+                controller: 'quotationsController',
+                templateUrl: 'views/app/quotations.html'
             })
 });
 
