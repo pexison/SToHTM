@@ -38,6 +38,12 @@ class Service(db.Model):
         result = self.query.filter_by(user=user).all()
         return result
 
+    def getServicesByCategory(self, category):
+        '''Permite obtener todos los servicios'''
+
+        result = self.query.filter_by(category=category).all()
+        return result
+
     def getServiceById(self, id):
         '''Permite buscar un servicio por su id'''
 
