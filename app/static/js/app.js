@@ -28,6 +28,12 @@ stohtModule.config(function ($routeProvider) {
             }).when('/services', {
                 controller: 'servicesController',
                 templateUrl: 'views/app/services.html'
+            }).when('/suscriptions', {
+                controller: 'suscriptionsController',
+                templateUrl: 'views/app/suscriptions.html'
+            }).when('/requests', {
+                controller: 'requestsController',
+                templateUrl: 'views/app/requests.html'
             })
 });
 
