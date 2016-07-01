@@ -20,6 +20,12 @@
                 <li class= "{{view == 'services' ? 'sidebar-selected':' '}}">
                     <a href="#services" ng-if="isClient">Servicios</a>
                 </li>
+                <li class= "{{view == 'suscriptions' ? 'sidebar-selected':' '}}">
+                    <a href="#suscriptions" ng-if="isOperator">Suscripciones</a>
+                </li>
+                <li class= "{{view == 'requests' ? 'sidebar-selected':' '}}">
+                    <a href="#requests" ng-if="isOperator">Solicitudes</a>
+                </li>
             </ul>
         </div>
             <div class="container-fluid">
